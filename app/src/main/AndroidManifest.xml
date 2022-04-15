@@ -19,6 +19,9 @@
             android:name=".LevelActivity"
             android:exported="false" />
         <activity
+            android:name=".LevelSelectorActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
