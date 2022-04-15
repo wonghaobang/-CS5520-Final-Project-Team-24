@@ -27,11 +27,13 @@ public class LeaderboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboard);
 
-        createRecyclerView();
+        // receive username
+        final String username = getIntent().getExtras().getString("Username");
+        createRecyclerView(username);
     }
 
 
-    private void createRecyclerView() {
+    private void createRecyclerView(String username) {
         RecyclerView leaderboardRecyclerView = findViewById(R.id.leaderboard_recyclerview);
         RecyclerView.LayoutManager leaderboardLayoutManger = new LinearLayoutManager(this);
         leaderboardViewAdapter = new LeaderboardViewAdapter(leaderList);

@@ -3,9 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/wongh4/Desktop/-CS5520-Final-Project-Team-24/app/src/main/res/layout/activity_leaderboard.xml" value="0.27291666666666664" />
-        <entry key="..\:/Users/wongh4/Desktop/-CS5520-Final-Project-Team-24/app/src/main/res/layout/activity_main.xml" value="0.27291666666666664" />
-        <entry key="..\:/Users/wongh4/Desktop/-CS5520-Final-Project-Team-24/app/src/main/res/layout/leader_item.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/talpu/AndroidStudioProjects/-CS5520-Final-Project-Team-24/app/src/main/res/layout/activity_leaderboard.xml" value="0.55" />
+        <entry key="..\:/Users/talpu/AndroidStudioProjects/-CS5520-Final-Project-Team-24/app/src/main/res/layout/activity_main.xml" value="0.67" />
+        <entry key="..\:/Users/talpu/AndroidStudioProjects/-CS5520-Final-Project-Team-24/app/src/main/res/layout/dialog_login.xml" value="0.55" />
+        <entry key="..\:/Users/talpu/AndroidStudioProjects/-CS5520-Final-Project-Team-24/app/src/main/res/layout/leader_item.xml" value="0.67" />
+        <entry key="..\:/Users/wongh4/Desktop/-CS5520-Final-Project-Team-24/app/src/main/res/layout/activity_main.xml" value="0.1" />
       </map>
     </option>
   </component>
