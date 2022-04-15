@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "600220100598",
+    "project_id": "team-24---memoryup",
+    "storage_bucket": "team-24---memoryup.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:600220100598:android:d33c1204c619dd2d5249d7",
+        "android_client_info": {
+          "package_name": "edu.neu.madcourse.memoryup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "600220100598-fuebllo5ndhc41qj6r62f7egc9kd56dh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDN8Rfb-VJ53Tl3fBFW_5xraqX27BSgdTs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "600220100598-fuebllo5ndhc41qj6r62f7egc9kd56dh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
