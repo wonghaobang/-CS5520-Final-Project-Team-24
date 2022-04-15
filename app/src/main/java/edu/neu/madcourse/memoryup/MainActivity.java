@@ -22,7 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
+import edu.neu.madcourse.memoryup.LeaderboardScreen.LeaderboardActivity;
 
 public class MainActivity extends AppCompatActivity {
     // database
