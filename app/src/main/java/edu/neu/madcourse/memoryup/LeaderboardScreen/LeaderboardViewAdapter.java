@@ -27,9 +27,9 @@ public class LeaderboardViewAdapter extends RecyclerView.Adapter<LeaderboardView
     @Override
     public void onBindViewHolder(@NonNull LeaderboardViewHolder holder, int position) {
         LeaderItem currentItem = leaderList.get(position);
-        holder.rank.setText(currentItem.getRank());
+        holder.rank.setText(String.valueOf(currentItem.getRank()));
         holder.name.setText(currentItem.getName());
-        holder.score.setText(currentItem.getScore());
+        holder.score.setText(String.valueOf(currentItem.getScore()));
     }
 
     @Override
