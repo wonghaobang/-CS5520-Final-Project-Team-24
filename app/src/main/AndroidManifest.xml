@@ -10,16 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MemoryUp">
         <activity
-            android:name=".LeaderboardScreen.LeaderItem"
-            android:exported="false" />
-        <activity
             android:name=".LeaderboardScreen.LeaderboardActivity"
             android:exported="false" />
         <activity
-            android:name=".LevelActivity"
+            android:name=".LevelSelectorActivity"
             android:exported="false" />
         <activity
-            android:name=".LevelSelectorActivity"
+            android:name=".CardMatchingScreen.CardMatchingActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
