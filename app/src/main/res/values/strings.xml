@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MemoryUp</string>
+    <string name="level">%1$s - Level %2$d</string>
+    <string name="score">Score : %1$d</string>
+    <string name="time">Time left : %1$d:%2$s</string>
+    <string name="lives">%1$d lives</string>
 </resources>
