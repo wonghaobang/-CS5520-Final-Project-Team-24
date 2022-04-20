@@ -16,7 +16,7 @@ public class Animals {
             animalsImagesIdArray.add(i);
         }
 
-        /*Initialize fruits name array*/
+        /*Initialize animals name array*/
         animalsNamesArray.add("sheep");
         animalsNamesArray.add("camel");
         animalsNamesArray.add("snail");
@@ -28,7 +28,7 @@ public class Animals {
         animalsNamesArray.add("shark");
         animalsNamesArray.add("pig");
 
-        /*Initialize fruits color array*/
+        /*Initialize animals species array*/
         animalsSpeciesNameArray.add("ovis aries");
         animalsSpeciesNameArray.add("camelus");
         animalsSpeciesNameArray.add("gastropoda");
