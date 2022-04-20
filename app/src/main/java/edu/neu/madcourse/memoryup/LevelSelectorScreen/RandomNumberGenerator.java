@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class RandomNumberGenerator  {
-    private int numberOfCards;
+    private int numberOfPairsOfCards;
     private int numberOfCategories;
     private int numberOfItemsPerArray;
     private ArrayList<ArrayList<Integer>> randomCards = new ArrayList<ArrayList<Integer>>();
 
-    public RandomNumberGenerator(int numberOfCards, int numberOfCategories, int numberOfItemsPerArray){
-        this.numberOfCards = numberOfCards;
+    public RandomNumberGenerator(int numberOfPairsOfCards, int numberOfCategories, int numberOfItemsPerArray){
+        this.numberOfPairsOfCards = numberOfPairsOfCards;
         this.numberOfCategories= numberOfCategories;
         this.numberOfItemsPerArray = numberOfItemsPerArray;
     }
@@ -21,7 +21,7 @@ public class RandomNumberGenerator  {
         int randomNum;
 
         /*Iterate for number of cards*/
-        for (int i = 0; i < this.numberOfCards; i++){
+        for (int i = 0; i < this.numberOfPairsOfCards; i++){
             max = this.numberOfCategories;
             ArrayList<Integer> matchCards = new ArrayList<Integer>();
 

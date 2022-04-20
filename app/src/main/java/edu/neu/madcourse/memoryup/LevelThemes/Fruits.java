@@ -6,23 +6,53 @@ public class Fruits {
     private int numberOfCategories = 3;
     private int numberOfItemsPerArray = 10;
 
-    private int[] fruitsImagesIdArray = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-    private String[]  fruitsNamesArray = {"apple", "banana", "blackcurrant", "blueberry", "grapes", "orange", "peach", "pear", "pineapple", "strawberry"};
-    private String[] fruitsColorsArray = {"red", "yellow", "black", "blue", "purple", "orange", "pink", "green", "yellow", "red"};
+    private ArrayList<Object> fruitsImagesIdArray = new ArrayList<Object>();
+    private ArrayList<Object>  fruitsNamesArray = new ArrayList<Object>();
+    private ArrayList<Object> fruitsColorsArray = new ArrayList<Object>();
+
+    public Fruits(){
+        /*Initialize fruits imagesId array*/
+        for (int i = 0; i < numberOfItemsPerArray; i++){
+            fruitsImagesIdArray.add(i);
+        }
+
+        /*Initialize fruits name array*/
+        fruitsNamesArray.add("apple");
+        fruitsNamesArray.add("banana");
+        fruitsNamesArray.add("blackcurrant");
+        fruitsNamesArray.add("blueberry");
+        fruitsNamesArray.add("grapes");
+        fruitsNamesArray.add("orange");
+        fruitsNamesArray.add("peach");
+        fruitsNamesArray.add("pear");
+        fruitsNamesArray.add("pineapple");
+        fruitsNamesArray.add("strawberry");
+
+        /*Initialize fruits color array*/
+        fruitsColorsArray.add("red");
+        fruitsColorsArray.add("yellow");
+        fruitsColorsArray.add("black");
+        fruitsColorsArray.add("blue");
+        fruitsColorsArray.add("purple");
+        fruitsColorsArray.add("orange");
+        fruitsColorsArray.add("pink");
+        fruitsColorsArray.add("green");
+        fruitsColorsArray.add("yellow");
+        fruitsColorsArray.add("red");
+    }
 
     public int getNumberOfCategories(){return numberOfCategories;};
 
     public int getNumberOfItemsPerArray(){return numberOfItemsPerArray;};
 
-    public int getImageId(int index){
-        return fruitsImagesIdArray[index];
-    }
-
-    public String getName(int index){
-        return fruitsNamesArray[index];
-    }
-
-    public String getColor(int index){
-        return fruitsColorsArray[index];
+    public ArrayList<Object> getCategoryArray(int index){
+        switch (index) {
+            case 0:
+                return fruitsImagesIdArray;
+            case 1:
+                return fruitsNamesArray;
+            default:
+                return fruitsColorsArray;
+        }
     }
 }
