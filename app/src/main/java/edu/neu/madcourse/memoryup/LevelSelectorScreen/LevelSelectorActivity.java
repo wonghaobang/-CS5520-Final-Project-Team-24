@@ -1,4 +1,4 @@
-package edu.neu.madcourse.memoryup;
+package edu.neu.madcourse.memoryup.LevelSelectorScreen;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import java.util.ArrayList;
+
+import edu.neu.madcourse.memoryup.R;
 
 public class LevelSelectorActivity extends AppCompatActivity {
 

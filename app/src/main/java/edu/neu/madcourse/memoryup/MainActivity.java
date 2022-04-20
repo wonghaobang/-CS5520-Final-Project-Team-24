@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import edu.neu.madcourse.memoryup.LeaderboardScreen.LeaderboardActivity;
+import edu.neu.madcourse.memoryup.LevelSelectorScreen.LevelSelectorActivity;
 
 public class MainActivity extends AppCompatActivity {
     // database

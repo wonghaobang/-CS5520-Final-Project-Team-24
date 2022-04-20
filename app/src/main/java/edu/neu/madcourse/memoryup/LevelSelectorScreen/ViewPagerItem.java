@@ -1,4 +1,4 @@
-package edu.neu.madcourse.memoryup;
+package edu.neu.madcourse.memoryup.LevelSelectorScreen;
 
 import android.widget.ImageView;
 

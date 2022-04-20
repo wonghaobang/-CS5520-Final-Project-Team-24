@@ -3,17 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/talpu/AndroidStudioProjects/-CS5520-Final-Project-Team-24/app/src/main/res/layout/activity_leaderboard.xml" value="0.55" />
-        <entry key="..\:/Users/talpu/AndroidStudioProjects/-CS5520-Final-Project-Team-24/app/src/main/res/layout/activity_main.xml" value="0.67" />
-        <entry key="..\:/Users/talpu/AndroidStudioProjects/-CS5520-Final-Project-Team-24/app/src/main/res/layout/dialog_login.xml" value="0.55" />
-        <entry key="..\:/Users/talpu/AndroidStudioProjects/-CS5520-Final-Project-Team-24/app/src/main/res/layout/leader_item.xml" value="0.67" />
-        <entry key="..\:/Users/wongh4/Desktop/-CS5520-Final-Project-Team-24/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_card_matching.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.2515625" />
-        <entry key="app/src/main/res/layout/item_card.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/item_image_card.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/item_word_card.xml" value="1.0" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.21875" />
       </map>
     </option>
   </component>

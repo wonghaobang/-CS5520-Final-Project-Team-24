@@ -13,7 +13,7 @@
             android:name=".LeaderboardScreen.LeaderboardActivity"
             android:exported="false" />
         <activity
-            android:name=".LevelSelectorActivity"
+            android:name=".LevelSelectorScreen.LevelSelectorActivity"
             android:exported="false" />
         <activity
             android:name=".CardMatchingScreen.CardMatchingActivity"
