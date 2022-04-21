@@ -1,30 +1,22 @@
 package edu.neu.madcourse.memoryup.CardMatchingScreen;
 
-import android.view.View;
 import android.widget.TextView;
 
-import edu.neu.madcourse.memoryup.R;
+public class WordCard extends Card<String, TextView> {
 
-public class WordCard extends Card<String> {
-
-    public WordCard(int backOfCard, String frontOfCard, int matchingId) {
-        super(backOfCard, frontOfCard, matchingId);
+    public WordCard(int backOfCard, String frontOfCard, TextView textView, int matchingId) {
+        super(backOfCard, frontOfCard, textView, matchingId);
     }
 
     @Override
-    public int getLayout() { return R.layout.item_word_card; }
-
-    @Override
-    public void faceDown(View item) {
-        TextView card = item.findViewById(R.id.card);
-        card.setBackgroundResource(backOfCard);
-        card.setText("");
+    public void faceDown() {
+        cardView.setBackgroundResource(backOfCard);
+        cardView.setText("");
     }
 
     @Override
-    public void faceUp(View item) {
-        TextView card = item.findViewById(R.id.card);
-        card.setText(frontOfCard);
-        card.setBackgroundResource(0);
+    public void faceUp() {
+        cardView.setText(frontOfCard);
+        cardView.setBackgroundResource(0);
     }
 }

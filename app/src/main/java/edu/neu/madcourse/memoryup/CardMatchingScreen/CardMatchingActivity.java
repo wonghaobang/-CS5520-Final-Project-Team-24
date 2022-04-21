@@ -3,7 +3,12 @@ package edu.neu.madcourse.memoryup.CardMatchingScreen;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.widget.GridView;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -13,6 +18,21 @@ import java.util.List;
 import edu.neu.madcourse.memoryup.R;
 
 public class CardMatchingActivity extends AppCompatActivity {
+    private static final int MILLISECONDS_IN_SECOND = 1000;
+    private static final int SECONDS_IN_MINUTE = 60;
+    private static final int COUNTDOWN_INTERVAL_MILLISECONDS = 1000;
+    private static final int DOUBLE_DIGITS = 10;
+    private static final int CARD_SIZE = 225;
+    private static final int CARD_REMOVAL_DELAY = 1000;
+    private static final int MAX_FACE_UP_CARDS = 2;
+    private static final int MATCH_POINTS = 20;
+    private final List<Card<?, ?>> faceUpCards = new ArrayList<>();
+    private int score = 0;
+    private boolean started = false;
+    private boolean paused = false;
+    private CountDownTimer countDownTimer = null;
+    private long millisecondsLeft = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,28 +42,176 @@ public class CardMatchingActivity extends AppCompatActivity {
         setUpCardGrid();
     }
 
-    private void setUpHeader() {
-        TextView level = findViewById(R.id.level);
-        level.setText(getString(R.string.level, "Fruits", 1));
-        TextView score = findViewById(R.id.score);
-        score.setText(getString(R.string.score, 0));
+    @Override
+    protected void onStart() {
+        resumeCountDownTimer();
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        pauseCountDownTimer();
+        super.onStop();
+    }
+
+    @Override
+    protected void onResume() {
+        resumeCountDownTimer();
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        pauseCountDownTimer();
+        super.onPause();
+    }
+
+    private void pauseCountDownTimer() {
+        paused = true;
+        countDownTimer.cancel();
+    }
+
+    private void resumeCountDownTimer() {
+        if (paused) {
+            buildCountDownTimer(millisecondsLeft);
+            if (started) {
+                countDownTimer.start();
+            }
+        }
+        paused = false;
+    }
+
+    private void buildCountDownTimer(long milliseconds) {
         TextView tvTime = findViewById(R.id.time);
         tvTime.setText(getString(R.string.time, 2, "00"));
+
+        countDownTimer = new CountDownTimer(milliseconds, COUNTDOWN_INTERVAL_MILLISECONDS) {
+            public void onTick(long millisUntilFinished) {
+                millisecondsLeft = millisUntilFinished;
+                long minutes = millisUntilFinished / MILLISECONDS_IN_SECOND / SECONDS_IN_MINUTE;
+                long seconds = millisUntilFinished / MILLISECONDS_IN_SECOND % SECONDS_IN_MINUTE;
+                tvTime.setText(getString(R.string.time,
+                        minutes,
+                        seconds < DOUBLE_DIGITS ? "0" + seconds : seconds));
+            }
+
+            public void onFinish() {
+            }
+        };
+    }
+
+    private void setUpHeader() {
+        TextView tvLevel = findViewById(R.id.level);
+        tvLevel.setText(getString(R.string.level, "Fruits", 1));
+        showScore();
+        millisecondsLeft = 120000;
+        buildCountDownTimer(millisecondsLeft);
         TextView tvLives = findViewById(R.id.lives);
         tvLives.setText(getString(R.string.lives, 3));
     }
 
     private void setUpCardGrid() {
-        List<Card<?>> cards = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
-            cards.add(new ImageCard(R.drawable.ic_launcher_background, R.drawable.ic_launcher_foreground, i));
-            cards.add(new WordCard(R.drawable.ic_launcher_background, "fruit", i));
-        }
-        Collections.shuffle(cards);
-        CardAdapter cardAdapter = new CardAdapter(this, cards);
+        int length = 6;
+        int width = 4;
 
-        GridView cardGrid = findViewById(R.id.cardGrid);
-        cardGrid.setNumColumns(4);
-        cardGrid.setAdapter(cardAdapter);
+        GridLayout cardGrid = findViewById(R.id.cardGrid);
+        cardGrid.setRowCount(length);
+        cardGrid.setColumnCount(width);
+
+        List<View> views = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            ImageView imageView = new ImageView(this);
+            ImageCard imageCard = new ImageCard(R.drawable.ic_launcher_background, R.drawable.ic_launcher_foreground, imageView, i);
+            imageCard.faceDown();
+            setLayoutParams(imageView);
+            imageView.setOnClickListener(view -> onCardClick(imageCard));
+            views.add(imageView);
+
+            TextView textView = new TextView(this);
+            textView.setGravity(Gravity.CENTER);
+            WordCard wordCard = new WordCard(R.drawable.ic_launcher_background, "fruits", textView, i);
+            wordCard.faceDown();
+            setLayoutParams(textView);
+            textView.setOnClickListener(view -> onCardClick(wordCard));
+            views.add(textView);
+        }
+
+        Collections.shuffle(views);
+        for (View view : views) {
+            cardGrid.addView(view, CARD_SIZE, CARD_SIZE);
+        }
+    }
+
+    private void onCardClick(Card<?, ?> card) {
+        if (!started) {
+            started = true;
+            countDownTimer.start();
+        }
+        if (faceUpCards.size() == MAX_FACE_UP_CARDS) {
+            flipFaceUpCards();
+            faceUpCards.clear();
+        }
+        if (!faceUpCards.contains(card)) {
+            card.faceUp();
+            faceUpCards.add(card);
+            if (faceUpCards.size() == MAX_FACE_UP_CARDS) {
+                if (areFaceUpCardsMatching()) {
+                    disableClicksOnMatchedCards();
+                    updateScore();
+                    List<Card<?, ?>> matchedCards = new ArrayList<>(faceUpCards);
+                    new Handler().postDelayed(() ->
+                                    removeMatchedCards(matchedCards),
+                            CARD_REMOVAL_DELAY);
+                    faceUpCards.clear();
+                }
+            }
+        }
+    }
+
+    private void setLayoutParams(View view) {
+        GridLayout.LayoutParams param = new GridLayout.LayoutParams();
+        param.columnSpec = GridLayout.spec(GridLayout.UNDEFINED,GridLayout.FILL,1f);
+        param.width = 0;
+        view.setLayoutParams(param);
+    }
+
+    private void flipFaceUpCards() {
+        for (Card<?, ?> faceUpCard : faceUpCards) {
+            faceUpCard.faceDown();
+        }
+    }
+
+    private boolean areFaceUpCardsMatching() {
+        int id = faceUpCards.get(0).getMatchingId();
+        for (int i = 1; i < faceUpCards.size(); i++) {
+            if (faceUpCards.get(i).getMatchingId() != id) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void disableClicksOnMatchedCards() {
+        for (Card<?, ?> faceUpCard : faceUpCards) {
+            View view = (View) faceUpCard.getCardView();
+            view.setEnabled(false);
+        }
+    }
+
+    private void removeMatchedCards(List<Card<?, ?>> matchedCards) {
+        for (Card<?, ?> matchedCard : matchedCards) {
+            View view = (View) matchedCard.getCardView();
+            view.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void updateScore() {
+        score += MATCH_POINTS;
+        showScore();
+    }
+
+    private void showScore() {
+        TextView tvScore = findViewById(R.id.score);
+        tvScore.setText(getString(R.string.score, score));
     }
 }
