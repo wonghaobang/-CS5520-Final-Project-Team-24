@@ -2,6 +2,7 @@ package edu.neu.madcourse.memoryup.CardMatchingScreen;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -31,7 +32,7 @@ public class CardMatchingActivity extends AppCompatActivity {
     private final List<Card<?, ?>> faceUpCards = new ArrayList<>();
     private CountDownTimer countDownTimer = null;
     private long millisecondsLeft = 0;
-    private int score = 0;
+    private int points = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,13 +68,11 @@ public class CardMatchingActivity extends AppCompatActivity {
     }
 
     private void setUpHeader() {
-        TextView tvLevel = findViewById(R.id.level);
-        tvLevel.setText(getString(R.string.level, "Fruits", 1));
-        showScore();
+        TextView tvTitle = findViewById(R.id.title);
+        tvTitle.setText(getString(R.string.title, "Fruits", 1));
         millisecondsLeft = 120000;
         buildCountDownTimer(millisecondsLeft);
-        TextView tvLives = findViewById(R.id.lives);
-        tvLives.setText(getString(R.string.lives, 3));
+        showPoints();
     }
 
     private void setUpCardGrid() {
@@ -94,6 +93,7 @@ public class CardMatchingActivity extends AppCompatActivity {
 
             TextView textView = new TextView(this);
             textView.setGravity(Gravity.CENTER);
+            textView.setTextColor(Color.BLACK);
             WordCard wordCard = new WordCard(R.drawable.ic_launcher_background, "fruits", textView, i);
             wordCard.faceDown();
             textView.setOnClickListener(view -> onCardClick(wordCard));
@@ -155,7 +155,7 @@ public class CardMatchingActivity extends AppCompatActivity {
             if (faceUpCards.size() == MAX_FACE_UP_CARDS) {
                 if (areFaceUpCardsMatching()) {
                     disableClicksOnMatchedCards();
-                    updateScore();
+                    updatePoints();
                     List<Card<?, ?>> matchedCards = new ArrayList<>(faceUpCards);
                     new Handler().postDelayed(() ->
                                     removeMatchedCards(matchedCards),
@@ -196,13 +196,13 @@ public class CardMatchingActivity extends AppCompatActivity {
         }
     }
 
-    private void updateScore() {
-        score += MATCH_POINTS;
-        showScore();
+    private void updatePoints() {
+        points += MATCH_POINTS;
+        showPoints();
     }
 
-    private void showScore() {
-        TextView tvScore = findViewById(R.id.score);
-        tvScore.setText(getString(R.string.score, score));
+    private void showPoints() {
+        TextView tvPoints = findViewById(R.id.points);
+        tvPoints.setText(String.valueOf(points));
     }
 }
