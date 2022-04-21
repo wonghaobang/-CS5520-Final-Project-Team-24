@@ -26,12 +26,12 @@ public class CardMatchingActivity extends AppCompatActivity {
     private static final int CARD_REMOVAL_DELAY = 1000;
     private static final int MAX_FACE_UP_CARDS = 2;
     private static final int MATCH_POINTS = 20;
-    private final List<Card<?, ?>> faceUpCards = new ArrayList<>();
-    private int score = 0;
     private boolean started = false;
     private boolean paused = false;
+    private final List<Card<?, ?>> faceUpCards = new ArrayList<>();
     private CountDownTimer countDownTimer = null;
     private long millisecondsLeft = 0;
+    private int score = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +49,6 @@ public class CardMatchingActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        pauseCountDownTimer();
-        super.onStop();
-    }
-
-    @Override
     protected void onResume() {
         resumeCountDownTimer();
         super.onResume();
@@ -66,38 +60,10 @@ public class CardMatchingActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    private void pauseCountDownTimer() {
-        paused = true;
-        countDownTimer.cancel();
-    }
-
-    private void resumeCountDownTimer() {
-        if (paused) {
-            buildCountDownTimer(millisecondsLeft);
-            if (started) {
-                countDownTimer.start();
-            }
-        }
-        paused = false;
-    }
-
-    private void buildCountDownTimer(long milliseconds) {
-        TextView tvTime = findViewById(R.id.time);
-        tvTime.setText(getString(R.string.time, 2, "00"));
-
-        countDownTimer = new CountDownTimer(milliseconds, COUNTDOWN_INTERVAL_MILLISECONDS) {
-            public void onTick(long millisUntilFinished) {
-                millisecondsLeft = millisUntilFinished;
-                long minutes = millisUntilFinished / MILLISECONDS_IN_SECOND / SECONDS_IN_MINUTE;
-                long seconds = millisUntilFinished / MILLISECONDS_IN_SECOND % SECONDS_IN_MINUTE;
-                tvTime.setText(getString(R.string.time,
-                        minutes,
-                        seconds < DOUBLE_DIGITS ? "0" + seconds : seconds));
-            }
-
-            public void onFinish() {
-            }
-        };
+    @Override
+    protected void onStop() {
+        pauseCountDownTimer();
+        super.onStop();
     }
 
     private void setUpHeader() {
@@ -123,7 +89,6 @@ public class CardMatchingActivity extends AppCompatActivity {
             ImageView imageView = new ImageView(this);
             ImageCard imageCard = new ImageCard(R.drawable.ic_launcher_background, R.drawable.ic_launcher_foreground, imageView, i);
             imageCard.faceDown();
-            setLayoutParams(imageView);
             imageView.setOnClickListener(view -> onCardClick(imageCard));
             views.add(imageView);
 
@@ -131,7 +96,6 @@ public class CardMatchingActivity extends AppCompatActivity {
             textView.setGravity(Gravity.CENTER);
             WordCard wordCard = new WordCard(R.drawable.ic_launcher_background, "fruits", textView, i);
             wordCard.faceDown();
-            setLayoutParams(textView);
             textView.setOnClickListener(view -> onCardClick(wordCard));
             views.add(textView);
         }
@@ -140,6 +104,40 @@ public class CardMatchingActivity extends AppCompatActivity {
         for (View view : views) {
             cardGrid.addView(view, CARD_SIZE, CARD_SIZE);
         }
+    }
+
+    private void buildCountDownTimer(long milliseconds) {
+        TextView tvTime = findViewById(R.id.time);
+        tvTime.setText(getString(R.string.time, 2, "00"));
+
+        countDownTimer = new CountDownTimer(milliseconds, COUNTDOWN_INTERVAL_MILLISECONDS) {
+            public void onTick(long millisUntilFinished) {
+                millisecondsLeft = millisUntilFinished;
+                long minutes = millisUntilFinished / MILLISECONDS_IN_SECOND / SECONDS_IN_MINUTE;
+                long seconds = millisUntilFinished / MILLISECONDS_IN_SECOND % SECONDS_IN_MINUTE;
+                tvTime.setText(getString(R.string.time,
+                        minutes,
+                        seconds < DOUBLE_DIGITS ? "0" + seconds : seconds));
+            }
+
+            public void onFinish() {
+            }
+        };
+    }
+
+    private void resumeCountDownTimer() {
+        if (paused) {
+            buildCountDownTimer(millisecondsLeft);
+            if (started) {
+                countDownTimer.start();
+            }
+        }
+        paused = false;
+    }
+
+    private void pauseCountDownTimer() {
+        paused = true;
+        countDownTimer.cancel();
     }
 
     private void onCardClick(Card<?, ?> card) {
@@ -166,13 +164,6 @@ public class CardMatchingActivity extends AppCompatActivity {
                 }
             }
         }
-    }
-
-    private void setLayoutParams(View view) {
-        GridLayout.LayoutParams param = new GridLayout.LayoutParams();
-        param.columnSpec = GridLayout.spec(GridLayout.UNDEFINED,GridLayout.FILL,1f);
-        param.width = 0;
-        view.setLayoutParams(param);
     }
 
     private void flipFaceUpCards() {

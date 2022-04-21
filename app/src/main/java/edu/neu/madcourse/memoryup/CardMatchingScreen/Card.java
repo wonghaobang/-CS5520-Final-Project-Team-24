@@ -6,7 +6,7 @@ public abstract class Card<T1, T2> {
     protected final T2 cardView;
     protected int matchingId;
 
-    public Card(int backOfCard, T1 frontOfCard, T2 cardView, int matchingId) {
+    protected Card(int backOfCard, T1 frontOfCard, T2 cardView, int matchingId) {
         this.backOfCard = backOfCard;
         this.frontOfCard = frontOfCard;
         this.cardView = cardView;
@@ -21,7 +21,7 @@ public abstract class Card<T1, T2> {
         return matchingId;
     }
 
-    abstract void faceDown();
+    public abstract void faceDown();
 
-    abstract void faceUp();
+    public abstract void faceUp();
 }
