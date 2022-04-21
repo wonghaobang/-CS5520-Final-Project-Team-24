@@ -1,30 +1,20 @@
 package edu.neu.madcourse.memoryup.CardMatchingScreen;
 
-import android.view.View;
 import android.widget.ImageView;
 
-import edu.neu.madcourse.memoryup.R;
+public class ImageCard extends Card<Integer, ImageView> {
 
-public class ImageCard extends Card<Integer> {
-
-    public ImageCard(int backOfCard, Integer frontOfCard, int matchingId) {
-        super(backOfCard, frontOfCard, matchingId);
+    public ImageCard(int backOfCard, Integer frontOfCard, ImageView imageView, int matchingId) {
+        super(backOfCard, frontOfCard, imageView, matchingId);
     }
 
     @Override
-    public int getLayout() {
-        return R.layout.item_image_card;
+    public void faceDown() {
+        cardView.setImageResource(backOfCard);
     }
 
     @Override
-    public void faceDown(View item) {
-        ImageView card = item.findViewById(R.id.card);
-        card.setImageResource(backOfCard);
-    }
-
-    @Override
-    public void faceUp(View item) {
-        ImageView card = item.findViewById(R.id.card);
-        card.setImageResource(frontOfCard);
+    public void faceUp() {
+        cardView.setImageResource(frontOfCard);
     }
 }

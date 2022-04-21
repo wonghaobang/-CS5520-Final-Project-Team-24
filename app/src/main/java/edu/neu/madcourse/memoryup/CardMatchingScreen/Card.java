@@ -1,25 +1,27 @@
 package edu.neu.madcourse.memoryup.CardMatchingScreen;
 
-import android.view.View;
-
-public abstract class Card<T> {
+public abstract class Card<T1, T2> {
     protected final int backOfCard;
-    protected final T frontOfCard;
+    protected final T1 frontOfCard;
+    protected final T2 cardView;
     protected int matchingId;
 
-    public Card(int backOfCard, T frontOfCard, int matchingId) {
+    public Card(int backOfCard, T1 frontOfCard, T2 cardView, int matchingId) {
         this.backOfCard = backOfCard;
         this.frontOfCard = frontOfCard;
+        this.cardView = cardView;
         this.matchingId = matchingId;
+    }
+
+    public T2 getCardView() {
+        return cardView;
     }
 
     public int getMatchingId() {
         return matchingId;
     }
 
-    abstract int getLayout();
+    abstract void faceDown();
 
-    abstract void faceDown(View item);
-
-    abstract void faceUp(View item);
+    abstract void faceUp();
 }
