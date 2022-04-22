@@ -15,16 +15,18 @@ import edu.neu.madcourse.memoryup.R;
 public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.ViewHolder>{
 
     ArrayList<ViewPagerItem> viewPagerList;
+    LevelClickListener levelClickListener;
 
-    public ViewPagerAdapter(ArrayList<ViewPagerItem> viewPagerList) {
+    public ViewPagerAdapter(ArrayList<ViewPagerItem> viewPagerList, LevelClickListener levelClickListener) {
         this.viewPagerList = viewPagerList;
+        this.levelClickListener = levelClickListener;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_pager_item, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, levelClickListener);
     }
 
     @Override
@@ -44,7 +46,7 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.View
         return viewPagerList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView theme;
         TextView text1;
         TextView text2;
@@ -52,8 +54,9 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.View
         TextView text4;
         TextView text5;
         TextView text6;
+        LevelClickListener levelClickListener;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, LevelClickListener levelClickListener) {
             super(itemView);
             theme = itemView.findViewById(R.id.theme);
             text1 = itemView.findViewById(R.id.text1);
@@ -62,7 +65,13 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.View
             text4 = itemView.findViewById(R.id.text4);
             text5 = itemView.findViewById(R.id.text5);
             text6 = itemView.findViewById(R.id.text6);
+            this.levelClickListener = levelClickListener;
+            itemView.setOnClickListener(this);
+        }
 
+        @Override
+        public void onClick(View view) {
+            levelClickListener.onLevelClick(getAdapterPosition());
         }
     }
 }

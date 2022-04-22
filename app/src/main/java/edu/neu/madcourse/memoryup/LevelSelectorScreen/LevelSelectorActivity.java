@@ -1,19 +1,23 @@
 package edu.neu.madcourse.memoryup.LevelSelectorScreen;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import edu.neu.madcourse.memoryup.R;
 
-public class LevelSelectorActivity extends AppCompatActivity {
-
-    ViewPager2 viewPager2;
-    ArrayList<ViewPagerItem> viewPagerItemLst;
+public class LevelSelectorActivity extends AppCompatActivity implements LevelClickListener {
+    private ViewPager2 viewPager2;
+    private ArrayList<ViewPagerItem> viewPagerItemLst;
+    private RecyclerView.LayoutManager rLayoutManger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +36,9 @@ public class LevelSelectorActivity extends AppCompatActivity {
         ViewPagerItem viewPagerItem3 = new ViewPagerItem("Animals","animals1", "animals2", "animals3", "animals4", "animals5", "animals6");
         viewPagerItemLst.add(viewPagerItem3);
 
-        ViewPagerAdapter vpAdapter = new ViewPagerAdapter(viewPagerItemLst);
+        ViewPagerAdapter vpAdapter = new ViewPagerAdapter(viewPagerItemLst, this);
+        rLayoutManger = new LinearLayoutManager(this);
+
         viewPager2.setAdapter(vpAdapter);
         viewPager2.setClipToPadding(false);
         viewPager2.setClipChildren(false);
@@ -46,5 +52,10 @@ public class LevelSelectorActivity extends AppCompatActivity {
 
     public void nextButton(View view){
         viewPager2.setCurrentItem(viewPager2.getCurrentItem()+1,true);
+    }
+
+    @Override
+    public void onLevelClick(int position) {
+        Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show();
     }
 }

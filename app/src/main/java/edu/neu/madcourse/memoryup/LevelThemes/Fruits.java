@@ -55,4 +55,5 @@ public class Fruits {
                 return fruitsColorsArray;
         }
     }
+
 }
