@@ -20,4 +20,26 @@ public class ViewPagerItem {
         this.text5 = text5;
         this.text6 = text6;
     }
+
+    public String getTheme(){
+        return this.theme;
+    }
+    public String getLevel1(){
+        return this.text1;
+    }
+    public String getLevel2(){
+        return this.text2;
+    }
+    public String getLevel3(){
+        return this.text3;
+    }
+    public String getLevel4(){
+        return this.text4;
+    }
+    public String getLevel5(){
+        return this.text5;
+    }
+    public String getLevel6(){
+        return this.text6;
+    }
 }

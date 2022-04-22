@@ -1,9 +1,12 @@
 package edu.neu.madcourse.memoryup.LevelSelectorScreen;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class RandomNumberGenerator  {
+public class RandomNumberGenerator {
     private int numberOfPairsOfCards;
     private int numberOfCategories;
     private int numberOfItemsPerArray;

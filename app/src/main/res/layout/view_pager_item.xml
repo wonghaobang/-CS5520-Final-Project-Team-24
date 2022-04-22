@@ -23,6 +23,7 @@
             android:layout_gravity="fill"
             android:layout_margin="5sp"
             android:background="#ffffff"
+            android:onClick="level1Listener"
             android:text="Level 1"></TextView>
 
         <TextView
@@ -32,6 +33,7 @@
             android:layout_gravity="fill"
             android:layout_margin="5sp"
             android:background="#ffffff"
+            android:onClick="level2Listener"
             android:text="Level 2"></TextView>
 
         <TextView
@@ -41,6 +43,7 @@
             android:layout_gravity="fill"
             android:layout_margin="5sp"
             android:background="#ffffff"
+            android:onClick="level3Listener"
             android:text="Level 3"></TextView>
 
         <TextView
@@ -50,6 +53,7 @@
             android:layout_gravity="fill"
             android:layout_margin="5sp"
             android:background="#ffffff"
+            android:onClick="level4Listener"
             android:text="Level 4"></TextView>
 
         <TextView

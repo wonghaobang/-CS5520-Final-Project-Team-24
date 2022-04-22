@@ -5,19 +5,28 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import edu.neu.madcourse.memoryup.CardMatchingScreen.CardMatchingActivity;
 import edu.neu.madcourse.memoryup.R;
 
 public class LevelSelectorActivity extends AppCompatActivity implements LevelClickListener {
     private ViewPager2 viewPager2;
     private ArrayList<ViewPagerItem> viewPagerItemLst;
     private RecyclerView.LayoutManager rLayoutManger;
+    private int page;
+
+    private RandomNumberGenerator generate;
+    private ArrayList<ArrayList<Integer>> lst;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,18 +53,135 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
         viewPager2.setClipChildren(false);
         viewPager2.setOffscreenPageLimit(2);
         viewPager2.getChildAt(0).setOverScrollMode(View.OVER_SCROLL_NEVER);
+        this.page = viewPager2.getCurrentItem();
     }
 
     public void previousButton(View view){
         viewPager2.setCurrentItem(viewPager2.getCurrentItem()-1,true);
+        this.page = viewPager2.getCurrentItem();
     }
 
     public void nextButton(View view){
         viewPager2.setCurrentItem(viewPager2.getCurrentItem()+1,true);
+        this.page = viewPager2.getCurrentItem();
+    }
+
+    public void level1Listener(View view){
+        Intent intent = new Intent(this, CardMatchingActivity.class);
+        Bundle extras = new Bundle();
+
+        if (page == 0){
+            extras.putString("THEME","Fruits");
+
+            generate = new RandomNumberGenerator(6, 3, 10);
+            lst = generate.generateCards();
+        }
+        else if (page == 1){
+            extras.putString("THEME","Planets");
+
+            generate = new RandomNumberGenerator(6, 3, 10);
+            lst = generate.generateCards();
+        }
+        else {
+            extras.putString("THEME","Animals");
+
+            generate = new RandomNumberGenerator(6, 4, 9);
+            lst = generate.generateCards();
+        }
+
+        extras.putString("CARDS", String.valueOf(lst));
+        intent.putExtras(extras);
+        startActivity(intent);
+    }
+
+    public void level2Listener(View view){
+        Intent intent = new Intent(this, CardMatchingActivity.class);
+        Bundle extras = new Bundle();
+
+        if (page == 0){
+            extras.putString("THEME","Fruits");
+
+            generate = new RandomNumberGenerator(8, 3, 10);
+            lst = generate.generateCards();
+        }
+        else if (page == 1){
+            extras.putString("THEME","Planets");
+
+            generate = new RandomNumberGenerator(8, 3, 10);
+            lst = generate.generateCards();
+        }
+        else {
+            extras.putString("THEME","Animals");
+
+            generate = new RandomNumberGenerator(8, 4, 9);
+            lst = generate.generateCards();
+        }
+
+        extras.putString("CARDS", String.valueOf(lst));
+        intent.putExtras(extras);
+        startActivity(intent);
+    }
+
+    public void level3Listener(View view){
+        Intent intent = new Intent(this, CardMatchingActivity.class);
+        Bundle extras = new Bundle();
+        if (page == 0){
+            extras.putString("THEME","Fruits");
+
+            generate = new RandomNumberGenerator(10, 3, 10);
+            lst = generate.generateCards();
+        }
+        else if (page == 1){
+            extras.putString("THEME","Planets");
+
+            generate = new RandomNumberGenerator(10, 3, 10);
+            lst = generate.generateCards();
+        }
+        else {
+            extras.putString("THEME","Animals");
+
+            extras.putString("CARDS", String.valueOf(lst));
+            generate = new RandomNumberGenerator(10, 4, 9);
+            lst = generate.generateCards();
+        }
+
+        intent.putExtras(extras);
+        startActivity(intent);
+    }
+
+    public void level4Listener(View view){
+        Intent intent = new Intent(this, CardMatchingActivity.class);
+        Bundle extras = new Bundle();
+        if (page == 0){
+            extras.putString("THEME","Fruits");
+
+            generate = new RandomNumberGenerator(12, 3, 10);
+            lst = generate.generateCards();
+        }
+        else if (page == 1){
+            extras.putString("THEME","Planets");
+
+            generate = new RandomNumberGenerator(12, 3, 10);
+            lst = generate.generateCards();
+        }
+        else {
+            extras.putString("THEME","Animals");
+
+            extras.putString("CARDS", String.valueOf(lst));
+            generate = new RandomNumberGenerator(12, 4, 9);
+            lst = generate.generateCards();
+        }
+
+        intent.putExtras(extras);
+        startActivity(intent);
     }
 
     @Override
     public void onLevelClick(int position) {
-        Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show();
+
     }
+
+
+
+
 }
