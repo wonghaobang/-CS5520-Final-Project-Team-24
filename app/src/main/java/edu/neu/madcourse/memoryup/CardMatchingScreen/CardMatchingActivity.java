@@ -2,6 +2,8 @@ package edu.neu.madcourse.memoryup.CardMatchingScreen;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -16,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import edu.neu.madcourse.memoryup.LevelSelectorScreen.LevelSelectorActivity;
+import edu.neu.madcourse.memoryup.MainActivity;
 import edu.neu.madcourse.memoryup.R;
 
 public class CardMatchingActivity extends AppCompatActivity {
@@ -26,13 +30,15 @@ public class CardMatchingActivity extends AppCompatActivity {
     private static final int CARD_SIZE = 225;
     private static final int CARD_REMOVAL_DELAY = 1000;
     private static final int MAX_FACE_UP_CARDS = 2;
-    private static final int MATCH_POINTS = 20;
+    private static final int MATCH_POINTS = 100;
     private boolean started = false;
     private boolean paused = false;
+    private int cardsLeft;
     private final List<Card<?, ?>> faceUpCards = new ArrayList<>();
     private CountDownTimer countDownTimer = null;
     private long millisecondsLeft = 0;
     private int points = 0;
+    private int maxPoints;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +76,14 @@ public class CardMatchingActivity extends AppCompatActivity {
     private void setUpHeader() {
         TextView tvTitle = findViewById(R.id.title);
         tvTitle.setText(getString(R.string.title, "Fruits", 1));
-        millisecondsLeft = 120000;
+        millisecondsLeft = 60000;
         buildCountDownTimer(millisecondsLeft);
         showPoints();
     }
 
     private void setUpCardGrid() {
+        cardsLeft = 24;
+        maxPoints = cardsLeft / MAX_FACE_UP_CARDS * MATCH_POINTS;
         int length = 6;
         int width = 4;
 
@@ -84,7 +92,7 @@ public class CardMatchingActivity extends AppCompatActivity {
         cardGrid.setColumnCount(width);
 
         List<View> views = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < cardsLeft / MAX_FACE_UP_CARDS; i++) {
             ImageView imageView = new ImageView(this);
             ImageCard imageCard = new ImageCard(R.drawable.ic_launcher_background, R.drawable.ic_launcher_foreground, imageView, i);
             imageCard.faceDown();
@@ -106,21 +114,26 @@ public class CardMatchingActivity extends AppCompatActivity {
         }
     }
 
-    private void buildCountDownTimer(long milliseconds) {
+    private void showTime(long milliseconds) {
         TextView tvTime = findViewById(R.id.time);
-        tvTime.setText(getString(R.string.time, 2, "00"));
+        long minutes = milliseconds / MILLISECONDS_IN_SECOND / SECONDS_IN_MINUTE;
+        long seconds = milliseconds / MILLISECONDS_IN_SECOND % SECONDS_IN_MINUTE;
+        tvTime.setText(getString(R.string.time,
+                minutes,
+                seconds < DOUBLE_DIGITS ? "0" + seconds : seconds));
+    }
+
+    private void buildCountDownTimer(long milliseconds) {
+        showTime(milliseconds);
 
         countDownTimer = new CountDownTimer(milliseconds, COUNTDOWN_INTERVAL_MILLISECONDS) {
             public void onTick(long millisUntilFinished) {
                 millisecondsLeft = millisUntilFinished;
-                long minutes = millisUntilFinished / MILLISECONDS_IN_SECOND / SECONDS_IN_MINUTE;
-                long seconds = millisUntilFinished / MILLISECONDS_IN_SECOND % SECONDS_IN_MINUTE;
-                tvTime.setText(getString(R.string.time,
-                        minutes,
-                        seconds < DOUBLE_DIGITS ? "0" + seconds : seconds));
+                showTime(millisUntilFinished);
             }
 
             public void onFinish() {
+                endGame();
             }
         };
     }
@@ -156,6 +169,10 @@ public class CardMatchingActivity extends AppCompatActivity {
                 if (areFaceUpCardsMatching()) {
                     disableClicksOnMatchedCards();
                     updatePoints();
+                    cardsLeft -= faceUpCards.size();
+                    if (cardsLeft == 0) {
+                        endGame();
+                    }
                     List<Card<?, ?>> matchedCards = new ArrayList<>(faceUpCards);
                     new Handler().postDelayed(() ->
                                     removeMatchedCards(matchedCards),
@@ -204,5 +221,40 @@ public class CardMatchingActivity extends AppCompatActivity {
     private void showPoints() {
         TextView tvPoints = findViewById(R.id.points);
         tvPoints.setText(String.valueOf(points));
+    }
+
+    private void endGame() {
+        countDownTimer.cancel();
+        showResults();
+    }
+
+    private void showResults() {
+        Dialog results = new Dialog(this);
+        results.setContentView(R.layout.dialog_results);
+        results.setCancelable(false);
+
+        TextView tvTitle = results.findViewById(R.id.title);
+        if (cardsLeft == 0) {
+            tvTitle.setText(R.string.results_title_victory);
+        } else {
+            tvTitle.setText(R.string.results_title_time_up);
+        }
+
+        TextView tvPoints = results.findViewById(R.id.points);
+        tvPoints.setText(getString(R.string.results_points, points, maxPoints));
+
+        ImageView mainMenuIcon = results.findViewById(R.id.mainMenuIcon);
+        mainMenuIcon.setOnClickListener(view -> {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        });
+
+        ImageView levelsIcon = results.findViewById(R.id.levelsIcon);
+        levelsIcon.setOnClickListener(view -> {
+            Intent intent = new Intent(this, LevelSelectorActivity.class);
+            startActivity(intent);
+        });
+
+        results.show();
     }
 }
