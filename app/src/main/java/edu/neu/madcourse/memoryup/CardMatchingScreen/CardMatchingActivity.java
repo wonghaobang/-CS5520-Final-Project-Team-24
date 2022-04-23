@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 import edu.neu.madcourse.memoryup.LevelSelectorScreen.LevelSelectorActivity;
-import edu.neu.madcourse.memoryup.LevelThemes.LevelLayout;
+import edu.neu.madcourse.memoryup.LevelThemes.Levels;
 import edu.neu.madcourse.memoryup.LevelThemes.Theme;
 import edu.neu.madcourse.memoryup.MainActivity;
 import edu.neu.madcourse.memoryup.R;
@@ -55,7 +55,7 @@ public class CardMatchingActivity extends AppCompatActivity {
         ArrayList<ArrayList<Integer>> cardIndexes = convertCardsToArray(extras.getString("CARDS"));
         Log.i("Cards", String.valueOf(cardIndexes.get(0).get(0)));
 
-        setUpHeader();
+        setUpHeader(themeName, 1);
         setUpCardGrid(themeName, cardIndexes);
     }
 
@@ -102,10 +102,10 @@ public class CardMatchingActivity extends AppCompatActivity {
         super.onStop();
     }
 
-    private void setUpHeader() {
+    private void setUpHeader(String theme, Integer level) {
         TextView tvTitle = findViewById(R.id.title);
-        tvTitle.setText(getString(R.string.title, "Fruits", 1));
-        millisecondsLeft = 60000;
+        tvTitle.setText(getString(R.string.title, theme, level));
+        millisecondsLeft = Levels.getTime(level);
         buildCountDownTimer(millisecondsLeft);
         showPoints();
     }
@@ -122,7 +122,7 @@ public class CardMatchingActivity extends AppCompatActivity {
                 if (matchingCard.getClass() == Integer.class) {
                     Integer frontOfCard = (Integer) matchingCard;
                     ImageView imageView = new ImageView(this);
-                    ImageCard imageCard = new ImageCard(R.drawable.ic_launcher_background, frontOfCard, imageView, i);
+                    ImageCard imageCard = new ImageCard(frontOfCard, imageView, i);
                     imageCard.faceDown();
                     imageView.setOnClickListener(view -> onCardClick(imageCard));
                     views.add(imageView);
@@ -131,7 +131,7 @@ public class CardMatchingActivity extends AppCompatActivity {
                     TextView textView = new TextView(this);
                     textView.setGravity(Gravity.CENTER);
                     textView.setTextColor(Color.BLACK);
-                    WordCard wordCard = new WordCard(R.drawable.ic_launcher_background, frontOfCard, textView, i);
+                    WordCard wordCard = new WordCard(frontOfCard, textView, i);
                     wordCard.faceDown();
                     textView.setOnClickListener(view -> onCardClick(wordCard));
                     views.add(textView);
@@ -141,7 +141,7 @@ public class CardMatchingActivity extends AppCompatActivity {
 
         cardsLeft = views.size();
         maxPoints = cardsLeft / MAX_FACE_UP_CARDS * MATCH_POINTS;
-        int length = LevelLayout.getLength(cardsLeft);
+        int length = Levels.getLength(cardsLeft);
         int width = cardsLeft / length;
 
         GridLayout cardGrid = findViewById(R.id.cardGrid);

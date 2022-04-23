@@ -4,8 +4,8 @@ import android.widget.ImageView;
 
 public class ImageCard extends Card<Integer, ImageView> {
 
-    public ImageCard(int backOfCard, Integer frontOfCard, ImageView imageView, int matchingId) {
-        super(backOfCard, frontOfCard, imageView, matchingId);
+    public ImageCard(Integer frontOfCard, ImageView imageView, int matchingId) {
+        super(frontOfCard, imageView, matchingId);
     }
 
     @Override

@@ -7,16 +7,12 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import edu.neu.madcourse.memoryup.CardMatchingScreen.CardMatchingActivity;
-import edu.neu.madcourse.memoryup.LevelThemes.LevelLayout;
+import edu.neu.madcourse.memoryup.LevelThemes.Levels;
 import edu.neu.madcourse.memoryup.R;
 
 public class LevelSelectorActivity extends AppCompatActivity implements LevelClickListener {
@@ -74,19 +70,19 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
         if (page == 0){
             extras.putString("THEME","Fruits");
 
-            generate = new RandomNumberGenerator(LevelLayout.getTotal(1) / 2, 3, 10);
+            generate = new RandomNumberGenerator(Levels.getTotal(1) / 2, 3, 10);
             lst = generate.generateCards();
         }
         else if (page == 1){
             extras.putString("THEME","Planets");
 
-            generate = new RandomNumberGenerator(LevelLayout.getTotal(1) / 2, 3, 10);
+            generate = new RandomNumberGenerator(Levels.getTotal(1) / 2, 3, 10);
             lst = generate.generateCards();
         }
         else {
             extras.putString("THEME","Animals");
 
-            generate = new RandomNumberGenerator(LevelLayout.getTotal(1) / 2, 4, 9);
+            generate = new RandomNumberGenerator(Levels.getTotal(1) / 2, 4, 9);
             lst = generate.generateCards();
         }
 
@@ -102,19 +98,19 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
         if (page == 0){
             extras.putString("THEME","Fruits");
 
-            generate = new RandomNumberGenerator(LevelLayout.getTotal(2) / 2, 3, 10);
+            generate = new RandomNumberGenerator(Levels.getTotal(2) / 2, 3, 10);
             lst = generate.generateCards();
         }
         else if (page == 1){
             extras.putString("THEME","Planets");
 
-            generate = new RandomNumberGenerator(LevelLayout.getTotal(2) / 2, 3, 10);
+            generate = new RandomNumberGenerator(Levels.getTotal(2) / 2, 3, 10);
             lst = generate.generateCards();
         }
         else {
             extras.putString("THEME","Animals");
 
-            generate = new RandomNumberGenerator(LevelLayout.getTotal(2) / 2, 4, 9);
+            generate = new RandomNumberGenerator(Levels.getTotal(2) / 2, 4, 9);
             lst = generate.generateCards();
         }
 
@@ -129,20 +125,20 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
         if (page == 0){
             extras.putString("THEME","Fruits");
 
-            generate = new RandomNumberGenerator(LevelLayout.getTotal(3) / 2, 3, 10);
+            generate = new RandomNumberGenerator(Levels.getTotal(3) / 2, 3, 10);
             lst = generate.generateCards();
         }
         else if (page == 1){
             extras.putString("THEME","Planets");
 
-            generate = new RandomNumberGenerator(LevelLayout.getTotal(3) / 2, 3, 10);
+            generate = new RandomNumberGenerator(Levels.getTotal(3) / 2, 3, 10);
             lst = generate.generateCards();
         }
         else {
             extras.putString("THEME","Animals");
 
             extras.putString("CARDS", String.valueOf(lst));
-            generate = new RandomNumberGenerator(LevelLayout.getTotal(3) / 2, 4, 9);
+            generate = new RandomNumberGenerator(Levels.getTotal(3) / 2, 4, 9);
             lst = generate.generateCards();
         }
 
@@ -156,20 +152,20 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
         if (page == 0){
             extras.putString("THEME","Fruits");
 
-            generate = new RandomNumberGenerator(LevelLayout.getTotal(4) / 2, 3, 10);
+            generate = new RandomNumberGenerator(Levels.getTotal(4) / 2, 3, 10);
             lst = generate.generateCards();
         }
         else if (page == 1){
             extras.putString("THEME","Planets");
 
-            generate = new RandomNumberGenerator(LevelLayout.getTotal(4) / 2, 3, 10);
+            generate = new RandomNumberGenerator(Levels.getTotal(4) / 2, 3, 10);
             lst = generate.generateCards();
         }
         else {
             extras.putString("THEME","Animals");
 
             extras.putString("CARDS", String.valueOf(lst));
-            generate = new RandomNumberGenerator(LevelLayout.getTotal(4) / 2, 4, 9);
+            generate = new RandomNumberGenerator(Levels.getTotal(4) / 2, 4, 9);
             lst = generate.generateCards();
         }
 
