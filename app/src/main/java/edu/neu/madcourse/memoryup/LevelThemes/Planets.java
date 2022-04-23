@@ -2,7 +2,7 @@ package edu.neu.madcourse.memoryup.LevelThemes;
 
 import java.util.ArrayList;
 
-public class Planets {
+public class Planets implements Theme {
     private int numberOfCategories = 4;
     private int numberOfItemsPerArray = 9;
 
@@ -55,17 +55,16 @@ public class Planets {
 
     public int getNumberOfItemsPerArray(){return numberOfItemsPerArray;};
 
-    public ArrayList<Object> getCategoryArray(int index){
-        switch (index) {
+    public Object getItem(int categoryIndex, int itemIndex) {
+        switch (categoryIndex) {
             case 0:
-                return planetsImagesIdArray;
+                return PlanetsImageMap.getImage(itemIndex);
             case 1:
-                return planetsNamesArray;
+                return planetsNamesArray.get(itemIndex);
             case 2:
-                return planetsSizesArray;
+                return planetsSizesArray.get(itemIndex);
             default:
-                return planetsDistanceFromSunArray;
+                return planetsDistanceFromSunArray.get(itemIndex);
         }
     }
-
 }

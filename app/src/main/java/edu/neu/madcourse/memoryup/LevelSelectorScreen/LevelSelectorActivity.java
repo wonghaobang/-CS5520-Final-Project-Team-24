@@ -16,6 +16,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import edu.neu.madcourse.memoryup.CardMatchingScreen.CardMatchingActivity;
+import edu.neu.madcourse.memoryup.LevelThemes.LevelLayout;
 import edu.neu.madcourse.memoryup.R;
 
 public class LevelSelectorActivity extends AppCompatActivity implements LevelClickListener {
@@ -73,19 +74,19 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
         if (page == 0){
             extras.putString("THEME","Fruits");
 
-            generate = new RandomNumberGenerator(6, 3, 10);
+            generate = new RandomNumberGenerator(LevelLayout.getTotal(1) / 2, 3, 10);
             lst = generate.generateCards();
         }
         else if (page == 1){
             extras.putString("THEME","Planets");
 
-            generate = new RandomNumberGenerator(6, 3, 10);
+            generate = new RandomNumberGenerator(LevelLayout.getTotal(1) / 2, 3, 10);
             lst = generate.generateCards();
         }
         else {
             extras.putString("THEME","Animals");
 
-            generate = new RandomNumberGenerator(6, 4, 9);
+            generate = new RandomNumberGenerator(LevelLayout.getTotal(1) / 2, 4, 9);
             lst = generate.generateCards();
         }
 
@@ -101,19 +102,19 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
         if (page == 0){
             extras.putString("THEME","Fruits");
 
-            generate = new RandomNumberGenerator(8, 3, 10);
+            generate = new RandomNumberGenerator(LevelLayout.getTotal(2) / 2, 3, 10);
             lst = generate.generateCards();
         }
         else if (page == 1){
             extras.putString("THEME","Planets");
 
-            generate = new RandomNumberGenerator(8, 3, 10);
+            generate = new RandomNumberGenerator(LevelLayout.getTotal(2) / 2, 3, 10);
             lst = generate.generateCards();
         }
         else {
             extras.putString("THEME","Animals");
 
-            generate = new RandomNumberGenerator(8, 4, 9);
+            generate = new RandomNumberGenerator(LevelLayout.getTotal(2) / 2, 4, 9);
             lst = generate.generateCards();
         }
 
@@ -128,20 +129,20 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
         if (page == 0){
             extras.putString("THEME","Fruits");
 
-            generate = new RandomNumberGenerator(10, 3, 10);
+            generate = new RandomNumberGenerator(LevelLayout.getTotal(3) / 2, 3, 10);
             lst = generate.generateCards();
         }
         else if (page == 1){
             extras.putString("THEME","Planets");
 
-            generate = new RandomNumberGenerator(10, 3, 10);
+            generate = new RandomNumberGenerator(LevelLayout.getTotal(3) / 2, 3, 10);
             lst = generate.generateCards();
         }
         else {
             extras.putString("THEME","Animals");
 
             extras.putString("CARDS", String.valueOf(lst));
-            generate = new RandomNumberGenerator(10, 4, 9);
+            generate = new RandomNumberGenerator(LevelLayout.getTotal(3) / 2, 4, 9);
             lst = generate.generateCards();
         }
 
@@ -155,20 +156,20 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
         if (page == 0){
             extras.putString("THEME","Fruits");
 
-            generate = new RandomNumberGenerator(12, 3, 10);
+            generate = new RandomNumberGenerator(LevelLayout.getTotal(4) / 2, 3, 10);
             lst = generate.generateCards();
         }
         else if (page == 1){
             extras.putString("THEME","Planets");
 
-            generate = new RandomNumberGenerator(12, 3, 10);
+            generate = new RandomNumberGenerator(LevelLayout.getTotal(4) / 2, 3, 10);
             lst = generate.generateCards();
         }
         else {
             extras.putString("THEME","Animals");
 
             extras.putString("CARDS", String.valueOf(lst));
-            generate = new RandomNumberGenerator(12, 4, 9);
+            generate = new RandomNumberGenerator(LevelLayout.getTotal(4) / 2, 4, 9);
             lst = generate.generateCards();
         }
 

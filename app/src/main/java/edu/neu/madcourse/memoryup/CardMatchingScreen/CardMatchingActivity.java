@@ -20,6 +20,8 @@ import java.util.Collections;
 import java.util.List;
 
 import edu.neu.madcourse.memoryup.LevelSelectorScreen.LevelSelectorActivity;
+import edu.neu.madcourse.memoryup.LevelThemes.LevelLayout;
+import edu.neu.madcourse.memoryup.LevelThemes.Theme;
 import edu.neu.madcourse.memoryup.MainActivity;
 import edu.neu.madcourse.memoryup.R;
 
@@ -41,26 +43,20 @@ public class CardMatchingActivity extends AppCompatActivity {
     private int points = 0;
     private int maxPoints;
 
-    //Bundle Attributes
-    String theme;
-    ArrayList<ArrayList<Integer>> cards;
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_matching);
 
-        setUpHeader();
-        setUpCardGrid();
-
         // Bundle Theme and CardsArray
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-        this.theme = extras.getString("THEME");
-        this.cards = convertCardsToArray(extras.getString("CARDS"));
-        Log.i("Cards", String.valueOf(cards.get(0).get(0)));
+        String themeName = extras.getString("THEME");
+        ArrayList<ArrayList<Integer>> cardIndexes = convertCardsToArray(extras.getString("CARDS"));
+        Log.i("Cards", String.valueOf(cardIndexes.get(0).get(0)));
+
+        setUpHeader();
+        setUpCardGrid(themeName, cardIndexes);
     }
 
     // Converts CardsArray from String to ArrayList<ArrayList<Integer>>
@@ -114,32 +110,43 @@ public class CardMatchingActivity extends AppCompatActivity {
         showPoints();
     }
 
-    private void setUpCardGrid() {
-        cardsLeft = 24;
+    private void setUpCardGrid(String themeName, List<ArrayList<Integer>> cardIndexes) {
+        Theme theme = Theme.getTheme(themeName);
+        List<View> views = new ArrayList<>();
+        for (int i = 0; i < cardIndexes.size(); i++) {
+            ArrayList<Integer> indexSet = cardIndexes.get(i);
+            List<Object> matchingCards = new ArrayList<>();
+            matchingCards.add(theme.getItem(indexSet.get(0), indexSet.get(2)));
+            matchingCards.add(theme.getItem(indexSet.get(1), indexSet.get(2)));
+            for (Object matchingCard : matchingCards) {
+                if (matchingCard.getClass() == Integer.class) {
+                    Integer frontOfCard = (Integer) matchingCard;
+                    ImageView imageView = new ImageView(this);
+                    ImageCard imageCard = new ImageCard(R.drawable.ic_launcher_background, frontOfCard, imageView, i);
+                    imageCard.faceDown();
+                    imageView.setOnClickListener(view -> onCardClick(imageCard));
+                    views.add(imageView);
+                } else if (matchingCard.getClass() == String.class) {
+                    String frontOfCard = matchingCard.toString();
+                    TextView textView = new TextView(this);
+                    textView.setGravity(Gravity.CENTER);
+                    textView.setTextColor(Color.BLACK);
+                    WordCard wordCard = new WordCard(R.drawable.ic_launcher_background, frontOfCard, textView, i);
+                    wordCard.faceDown();
+                    textView.setOnClickListener(view -> onCardClick(wordCard));
+                    views.add(textView);
+                }
+            }
+        }
+
+        cardsLeft = views.size();
         maxPoints = cardsLeft / MAX_FACE_UP_CARDS * MATCH_POINTS;
-        int length = 6;
-        int width = 4;
+        int length = LevelLayout.getLength(cardsLeft);
+        int width = cardsLeft / length;
 
         GridLayout cardGrid = findViewById(R.id.cardGrid);
         cardGrid.setRowCount(length);
         cardGrid.setColumnCount(width);
-
-        List<View> views = new ArrayList<>();
-        for (int i = 0; i < cardsLeft / MAX_FACE_UP_CARDS; i++) {
-            ImageView imageView = new ImageView(this);
-            ImageCard imageCard = new ImageCard(R.drawable.ic_launcher_background, R.drawable.ic_launcher_foreground, imageView, i);
-            imageCard.faceDown();
-            imageView.setOnClickListener(view -> onCardClick(imageCard));
-            views.add(imageView);
-
-            TextView textView = new TextView(this);
-            textView.setGravity(Gravity.CENTER);
-            textView.setTextColor(Color.BLACK);
-            WordCard wordCard = new WordCard(R.drawable.ic_launcher_background, "fruits", textView, i);
-            wordCard.faceDown();
-            textView.setOnClickListener(view -> onCardClick(wordCard));
-            views.add(textView);
-        }
 
         Collections.shuffle(views);
         for (View view : views) {
