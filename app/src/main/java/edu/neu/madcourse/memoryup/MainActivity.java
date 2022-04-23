@@ -2,6 +2,7 @@ package edu.neu.madcourse.memoryup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -31,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
     private String username = null;
     private UserData userData = null;
 
+    // audio controls
+    private boolean playMusic = true;
+    private Intent musicService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,12 +43,20 @@ public class MainActivity extends AppCompatActivity {
 
         // connect to firebase and set user data
         reference = FirebaseDatabase.getInstance().getReference().child("users");
+        musicService = new Intent(this, BackgroundMusicService.class);
 
         if (savedInstanceState != null && savedInstanceState.containsKey("username")) {
             username = savedInstanceState.getString("username");
+            playMusic = savedInstanceState.getInt("playMusic") == 1;
         }
+
+        // prompt username if not set
         if (username == null)
             promptLogin();
+
+        SwitchCompat musicSwitch = (SwitchCompat) findViewById(R.id.musicSwitch);
+        musicSwitch.setOnCheckedChangeListener((compoundButton, b) -> toggleMusic(b));
+        musicSwitch.setChecked(playMusic);
     }
 
     // don't prompt username on orientation changes
@@ -51,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         if (username != null) {
             outState.putString("username", username);
+            outState.putInt("playMusic", (playMusic ? 0 : 1));
         }
         super.onSaveInstanceState(outState);
     }
@@ -121,6 +135,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    // start background music
+    private void toggleMusic(boolean on) {
+        if (on)
+            startService(musicService);
+        else
+            stopService(musicService);
+    }
+
 
     // launch level selector activity
     public void onPlay(View view) {
