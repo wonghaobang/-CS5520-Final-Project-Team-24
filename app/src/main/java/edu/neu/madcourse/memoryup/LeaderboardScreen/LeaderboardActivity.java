@@ -36,7 +36,7 @@ public class LeaderboardActivity extends AppCompatActivity {
     private void createRecyclerView(String username) {
         RecyclerView leaderboardRecyclerView = findViewById(R.id.leaderboard_recyclerview);
         RecyclerView.LayoutManager leaderboardLayoutManger = new LinearLayoutManager(this);
-        leaderboardViewAdapter = new LeaderboardViewAdapter(leaderList);
+        leaderboardViewAdapter = new LeaderboardViewAdapter(leaderList, username);
 
         leaderboardRecyclerView.setAdapter(leaderboardViewAdapter);
         leaderboardRecyclerView.setLayoutManager(leaderboardLayoutManger);
@@ -48,11 +48,25 @@ public class LeaderboardActivity extends AppCompatActivity {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                UserData data = snapshot.getValue(UserData.class);
-//                if (data != null) {
-//                    leaderList.add(new LeaderItem(data.name, data.score, 0));
-//                    leaderboardViewAdapter.notifyDataSetChanged();
-//                }
+
+                for(DataSnapshot item_snapshot : snapshot.getChildren()) {
+//                    Log.d("hao-test", item_snapshot.getKey());
+                    UserData data = item_snapshot.getValue(UserData.class);
+                    if (data != null) {
+                        Log.d("hao-test", String.format("%s, %d", data.name, data.score));
+                        leaderList.add(new LeaderItem(data.name, data.score, 0, ""));
+
+                        Collections.sort(leaderList);
+
+                        for (int i = 0; i < leaderList.size(); i++) {
+                            leaderList.get(i).setRank(i + 1);
+                            Log.v("Hao-tag", String.format("%s %d %d", leaderList.get(i).getName(), leaderList.get(i).getScore(), leaderList.get(i).getRank()));
+                        }
+                        leaderboardViewAdapter.notifyDataSetChanged();
+                    }
+                }
+
+
             }
 
             @Override
@@ -62,36 +76,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         });
 
 
-        // sample data
-        leaderList.add(new LeaderItem("james", 10, 0, ""));
-        leaderList.add(new LeaderItem("peter", 100, 0, ""));
-        leaderList.add(new LeaderItem("susan", 66, 0, ""));
-        leaderList.add(new LeaderItem("mary", 45, 0, ""));
-        leaderList.add(new LeaderItem("chris", 39, 0, ""));
-        leaderList.add(new LeaderItem("may", 100, 0, ""));
-        leaderList.add(new LeaderItem("april", 91, 0, ""));
-        leaderList.add(new LeaderItem("sam", 90, 0, ""));
-        leaderList.add(new LeaderItem("sandy", 89, 0, ""));
-        leaderList.add(new LeaderItem("parker", 88, 0, ""));
-        leaderList.add(new LeaderItem("tony", 87, 0, ""));
-        leaderList.add(new LeaderItem("john", 86, 0, ""));
-        leaderList.add(new LeaderItem("alex", 85, 0, ""));
-        leaderList.add(new LeaderItem("anthony", 84, 0, ""));
-        leaderList.add(new LeaderItem("billy", 83, 0, ""));
-        leaderList.add(new LeaderItem("fung", 82, 0, ""));
-        leaderList.add(new LeaderItem("june", 81, 0, ""));
-        leaderList.add(new LeaderItem("alice", 80, 0, ""));
-        leaderList.add(new LeaderItem("yoyo", 79, 0, ""));
-
-
-        Collections.sort(leaderList);
-
-        for (int i = 0; i < leaderList.size(); i++) {
-            leaderList.get(i).setRank(i + 1);
-            Log.v("Hao-tag", String.format("%s %d %d", leaderList.get(i).getName(), leaderList.get(i).getScore(), leaderList.get(i).getRank()));
-        }
-
-        leaderboardRecyclerView.smoothScrollToPosition(leaderList.size() - 1);
+//        leaderboardRecyclerView.smoothScrollToPosition(leaderList.size() - 1);
 
 
     }

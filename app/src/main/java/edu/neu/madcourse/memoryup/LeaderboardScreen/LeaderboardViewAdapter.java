@@ -11,9 +11,11 @@ import edu.neu.madcourse.memoryup.R;
 
 public class LeaderboardViewAdapter extends RecyclerView.Adapter<LeaderboardViewHolder> {
     private final ArrayList<LeaderItem> leaderList;
+    private final String username;
 
-    public LeaderboardViewAdapter(ArrayList<LeaderItem> leaderList) {
+    public LeaderboardViewAdapter(ArrayList<LeaderItem> leaderList, String username) {
         this.leaderList = leaderList;
+        this.username = username;
     }
 
 
@@ -34,8 +36,9 @@ public class LeaderboardViewAdapter extends RecyclerView.Adapter<LeaderboardView
         holder.milestone.setText("🐤🍉🌍");
         holder.milestone.setTextColor(Color.WHITE);
 
-        if (currentItem.getName().equals("chris")) {
-            holder.itemView.setBackgroundColor(Color.CYAN);
+        if (currentItem.getName().equals(username)) {
+            holder.itemView.setBackgroundColor(Color.rgb(173,216,230));
+            holder.milestone.setText("🐤🍉");
         } else {
             holder.itemView.setBackgroundColor(Color.WHITE);
         }
