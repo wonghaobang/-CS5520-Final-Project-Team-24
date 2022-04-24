@@ -63,13 +63,26 @@ public class LeaderboardActivity extends AppCompatActivity {
 
 
         // sample data
-        leaderList.add(new LeaderItem("james", 10, 0));
-        leaderList.add(new LeaderItem("peter", 100, 0));
-        leaderList.add(new LeaderItem("susan", 66, 0));
-        leaderList.add(new LeaderItem("mary", 45, 0));
-        leaderList.add(new LeaderItem("chris", 39, 0));
-        leaderList.add(new LeaderItem("may", 100, 0));
-        leaderList.add(new LeaderItem("april", 91, 0));
+        leaderList.add(new LeaderItem("james", 10, 0, ""));
+        leaderList.add(new LeaderItem("peter", 100, 0, ""));
+        leaderList.add(new LeaderItem("susan", 66, 0, ""));
+        leaderList.add(new LeaderItem("mary", 45, 0, ""));
+        leaderList.add(new LeaderItem("chris", 39, 0, ""));
+        leaderList.add(new LeaderItem("may", 100, 0, ""));
+        leaderList.add(new LeaderItem("april", 91, 0, ""));
+        leaderList.add(new LeaderItem("sam", 90, 0, ""));
+        leaderList.add(new LeaderItem("sandy", 89, 0, ""));
+        leaderList.add(new LeaderItem("parker", 88, 0, ""));
+        leaderList.add(new LeaderItem("tony", 87, 0, ""));
+        leaderList.add(new LeaderItem("john", 86, 0, ""));
+        leaderList.add(new LeaderItem("alex", 85, 0, ""));
+        leaderList.add(new LeaderItem("anthony", 84, 0, ""));
+        leaderList.add(new LeaderItem("billy", 83, 0, ""));
+        leaderList.add(new LeaderItem("fung", 82, 0, ""));
+        leaderList.add(new LeaderItem("june", 81, 0, ""));
+        leaderList.add(new LeaderItem("alice", 80, 0, ""));
+        leaderList.add(new LeaderItem("yoyo", 79, 0, ""));
+
 
         Collections.sort(leaderList);
 
@@ -78,6 +91,7 @@ public class LeaderboardActivity extends AppCompatActivity {
             Log.v("Hao-tag", String.format("%s %d %d", leaderList.get(i).getName(), leaderList.get(i).getScore(), leaderList.get(i).getRank()));
         }
 
+        leaderboardRecyclerView.smoothScrollToPosition(leaderList.size() - 1);
 
 
     }

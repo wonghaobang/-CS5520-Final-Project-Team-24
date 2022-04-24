@@ -10,11 +10,14 @@
         android:id="@+id/placeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Place"
+        android:drawableStart="@drawable/ic_baseline_format_list_numbered_24"
+        android:drawableLeft="@drawable/ic_baseline_format_list_numbered_24"
+        android:drawablePadding="2dp"
+        android:text="Rank"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/leaderboard_recyclerview"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -22,9 +25,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
+        android:drawableStart="@drawable/ic_baseline_person_24"
+        android:drawableLeft="@drawable/ic_baseline_person_24"
+        android:drawablePadding="2dp"
         android:text="Name"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.35"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/leaderboardTitle_textView" />
 
@@ -32,11 +39,14 @@
         android:id="@+id/scoreText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_baseline_sports_esports_24"
+        android:drawableLeft="@drawable/ic_baseline_sports_esports_24"
+        android:drawablePadding="2dp"
         android:text="Score"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/leaderboard_recyclerview"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.85"
+        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -58,4 +68,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameText" />
+
+    <TextView
+        android:id="@+id/milestoneText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_baseline_person_24"
+        android:drawableLeft="@drawable/ic_baseline_person_24"
+        android:drawablePadding="2dp"
+        android:text="Milestones"
+        app:layout_constraintBottom_toTopOf="@+id/leaderboard_recyclerview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.91"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

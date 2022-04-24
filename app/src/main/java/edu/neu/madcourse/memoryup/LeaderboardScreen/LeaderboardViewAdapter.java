@@ -1,5 +1,6 @@
 package edu.neu.madcourse.memoryup.LeaderboardScreen;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,9 +28,17 @@ public class LeaderboardViewAdapter extends RecyclerView.Adapter<LeaderboardView
     @Override
     public void onBindViewHolder(@NonNull LeaderboardViewHolder holder, int position) {
         LeaderItem currentItem = leaderList.get(position);
-        holder.rank.setText(String.valueOf(currentItem.getRank()));
+        holder.rank.setText("#".concat(String.valueOf(currentItem.getRank())));
         holder.name.setText(currentItem.getName());
         holder.score.setText(String.valueOf(currentItem.getScore()));
+        holder.milestone.setText("🐤🍉🌍");
+        holder.milestone.setTextColor(Color.WHITE);
+
+        if (currentItem.getName().equals("chris")) {
+            holder.itemView.setBackgroundColor(Color.CYAN);
+        } else {
+            holder.itemView.setBackgroundColor(Color.WHITE);
+        }
     }
 
     @Override
