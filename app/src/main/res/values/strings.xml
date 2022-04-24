@@ -19,4 +19,5 @@
     <string name="results_points">%1$d out of %2$d</string>
     <string name="main_menu_icon_description">go to main menu</string>
     <string name="levels_icon_description">go to level selector</string>
+    <string name="change_user">Change User</string>
 </resources>

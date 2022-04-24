@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.service.autofill.UserData;
@@ -22,6 +23,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 import edu.neu.madcourse.memoryup.LeaderboardScreen.LeaderboardActivity;
 import edu.neu.madcourse.memoryup.LevelSelectorScreen.LevelSelectorActivity;
@@ -50,13 +60,28 @@ public class MainActivity extends AppCompatActivity {
             playMusic = savedInstanceState.getInt("playMusic") == 1;
         }
 
-        // prompt username if not set
+        // attempt to load username from local storage
         if (username == null)
-            promptLogin();
+            getUsername();
 
-        SwitchCompat musicSwitch = (SwitchCompat) findViewById(R.id.musicSwitch);
+        SwitchCompat musicSwitch = findViewById(R.id.musicSwitch);
         musicSwitch.setOnCheckedChangeListener((compoundButton, b) -> toggleMusic(b));
         musicSwitch.setChecked(playMusic);
+    }
+
+    @Override
+    protected void onDestroy() {
+        // save username to file
+        try {
+            FileOutputStream fos = this.getBaseContext().openFileOutput("username", Context.MODE_PRIVATE);
+            fos.write(username.getBytes());
+            fos.close();
+        } catch (Exception e) {
+            Toast.makeText(MainActivity.this, "Fail to save username", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+
+        super.onDestroy();
     }
 
     // don't prompt username on orientation changes
@@ -67,6 +92,24 @@ public class MainActivity extends AppCompatActivity {
             outState.putInt("playMusic", (playMusic ? 0 : 1));
         }
         super.onSaveInstanceState(outState);
+    }
+
+    // load saved username, if it exists
+    private void getUsername() {
+        try {
+            FileInputStream file = this.openFileInput("username");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(file));
+            username = reader.readLine();
+            file.close();
+            reader.close();
+        } catch (Exception e) {
+            // no file was found
+            promptLogin();
+        }
+
+        // just in case file was invalid
+        if (username == null)
+            promptLogin();
     }
 
     // request username entry
@@ -157,5 +200,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LeaderboardActivity.class);
         intent.putExtra("Username", username);
         startActivity(intent);
+    }
+
+    // change username
+    public void onChangeUser(View view) {
+        promptLogin();
     }
 }
