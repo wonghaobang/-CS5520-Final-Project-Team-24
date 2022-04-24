@@ -2,7 +2,7 @@ package edu.neu.madcourse.memoryup.LevelThemes;
 
 import java.util.ArrayList;
 
-public class Fruits {
+public class Fruits implements Theme {
     private int numberOfCategories = 3;
     private int numberOfItemsPerArray = 10;
 
@@ -45,14 +45,14 @@ public class Fruits {
 
     public int getNumberOfItemsPerArray(){return numberOfItemsPerArray;};
 
-    public ArrayList<Object> getCategoryArray(int index){
-        switch (index) {
+    public Object getItem(int categoryIndex, int itemIndex) {
+        switch (categoryIndex) {
             case 0:
-                return fruitsImagesIdArray;
+                return FruitsImageMap.getImage(itemIndex);
             case 1:
-                return fruitsNamesArray;
+                return fruitsNamesArray.get(itemIndex);
             default:
-                return fruitsColorsArray;
+                return fruitsColorsArray.get(itemIndex);
         }
     }
 

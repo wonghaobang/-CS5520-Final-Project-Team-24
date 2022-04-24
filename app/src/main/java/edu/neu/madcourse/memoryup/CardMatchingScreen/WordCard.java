@@ -4,8 +4,8 @@ import android.widget.TextView;
 
 public class WordCard extends Card<String, TextView> {
 
-    public WordCard(int backOfCard, String frontOfCard, TextView textView, int matchingId) {
-        super(backOfCard, frontOfCard, textView, matchingId);
+    public WordCard(String frontOfCard, TextView textView, int matchingId) {
+        super(frontOfCard, textView, matchingId);
     }
 
     @Override

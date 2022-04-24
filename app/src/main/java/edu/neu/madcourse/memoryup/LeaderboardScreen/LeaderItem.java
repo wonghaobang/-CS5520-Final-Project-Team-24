@@ -5,11 +5,13 @@ public class LeaderItem implements Comparable<LeaderItem> {
     private String name;
     private int score;
     private int rank;
+    private String milestone;
 
-    public LeaderItem(String name, int score, int rank) {
+    public LeaderItem(String name, int score, int rank, String milestone) {
         this.name = name;
         this.score = score;
         this.rank = rank;
+        this.milestone = milestone;
     }
 
 
@@ -25,6 +27,10 @@ public class LeaderItem implements Comparable<LeaderItem> {
         return rank;
     }
 
+    public String getMilestone() {
+        return milestone;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -35,6 +41,10 @@ public class LeaderItem implements Comparable<LeaderItem> {
 
     public void setRank(int rank) {
         this.rank = rank;
+    }
+
+    public void setMilestone(String milestone) {
+        this.milestone = milestone;
     }
 
 
