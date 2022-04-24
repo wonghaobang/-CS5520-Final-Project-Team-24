@@ -8,7 +8,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.service.autofill.UserData;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -165,7 +164,10 @@ public class MainActivity extends AppCompatActivity {
                         Snackbar.make(view, R.string.login_failure, Snackbar.LENGTH_SHORT).show();
                     } else {
                         // TODO: Set to actual value
-                        reference.child(etUsername).setValue("");
+//                        reference.child(etUsername).setValue("");
+                        userData = new UserData(etUsername, 20);
+                        reference.child(etUsername).setValue(userData);
+
                         username = etUsername;
                         dialog.dismiss();
                     }
