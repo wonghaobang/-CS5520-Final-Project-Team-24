@@ -25,8 +25,8 @@ public class Fruits implements Theme {
         fruitsNamesArray.add("orange");
         fruitsNamesArray.add("peach");
         fruitsNamesArray.add("pear");
-        fruitsNamesArray.add("pineapple");
-        fruitsNamesArray.add("strawberry");
+        fruitsNamesArray.add("kiwi");
+        fruitsNamesArray.add("rotten orange");
 
         /*Initialize fruits color array*/
         fruitsColorsArray.add("red");
@@ -37,8 +37,8 @@ public class Fruits implements Theme {
         fruitsColorsArray.add("orange");
         fruitsColorsArray.add("pink");
         fruitsColorsArray.add("green");
-        fruitsColorsArray.add("yellow");
-        fruitsColorsArray.add("red");
+        fruitsColorsArray.add("brown");
+        fruitsColorsArray.add("grey");
     }
 
     public int getNumberOfCategories(){return numberOfCategories;};

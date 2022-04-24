@@ -53,7 +53,9 @@ public class CardMatchingActivity extends AppCompatActivity {
         Bundle extras = intent.getExtras();
         String themeName = extras.getString("THEME");
         ArrayList<ArrayList<Integer>> cardIndexes = convertCardsToArray(extras.getString("CARDS"));
-        Log.i("Cards", String.valueOf(cardIndexes.get(0).get(0)));
+        Log.i("Username", extras.getString("USERNAME"));
+        Log.i("Level", String.valueOf(extras.getInt("LEVEL")));
+        Log.i("Cards", extras.getString("CARDS"));
 
         setUpHeader(themeName, 1);
         setUpCardGrid(themeName, cardIndexes);

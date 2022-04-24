@@ -22,6 +22,7 @@ public class RandomNumberGenerator {
         int min = 0;
         int max;
         int randomNum;
+        int counter = 0;
 
         /*Iterate for number of cards*/
         for (int i = 0; i < this.numberOfPairsOfCards; i++){
@@ -36,9 +37,12 @@ public class RandomNumberGenerator {
 
             /*Choose one random Item*/
             max = this.numberOfItemsPerArray;
-            randomNum = ThreadLocalRandom.current().nextInt(min, max );
-            matchCards.add(randomNum);
+            if (counter >= numberOfItemsPerArray) {
+                counter = 0;
+            }
+            matchCards.add(counter);
             randomCards.add(matchCards);
+            counter += 1;
         }
 
         return randomCards;

@@ -11,8 +11,8 @@ public class FruitsImageMap {
     private final static int image5 = R.drawable.orange;
     private final static int image6 = R.drawable.peach;
     private final static int image7 = R.drawable.pear;
-    private final static int image8 = R.drawable.pineapple;
-    private final static int image9 = R.drawable.strawberry;
+    private final static int image8 = R.drawable.kiwi;
+    private final static int image9 = R.drawable.rotten;
 
     public static int getImage(int id) {
         switch (id) {

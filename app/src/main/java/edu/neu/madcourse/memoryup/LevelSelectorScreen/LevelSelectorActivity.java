@@ -24,11 +24,17 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
     private RandomNumberGenerator generate;
     private ArrayList<ArrayList<Integer>> lst;
 
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level_selector);
+
+        // Get Username
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        username = extras.getString("Username");
 
         viewPager2 = findViewById(R.id.pager);
         viewPagerItemLst = new ArrayList<>();
@@ -66,6 +72,8 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
     public void level1Listener(View view){
         Intent intent = new Intent(this, CardMatchingActivity.class);
         Bundle extras = new Bundle();
+        extras.putInt("LEVEL", 1);
+        extras.putString("USERNAME", username);
 
         if (page == 0){
             extras.putString("THEME","Fruits");
@@ -86,6 +94,7 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
             lst = generate.generateCards();
         }
 
+
         extras.putString("CARDS", String.valueOf(lst));
         intent.putExtras(extras);
         startActivity(intent);
@@ -94,6 +103,8 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
     public void level2Listener(View view){
         Intent intent = new Intent(this, CardMatchingActivity.class);
         Bundle extras = new Bundle();
+        extras.putInt("LEVEL", 2);
+        extras.putString("USERNAME", username);
 
         if (page == 0){
             extras.putString("THEME","Fruits");
@@ -122,6 +133,9 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
     public void level3Listener(View view){
         Intent intent = new Intent(this, CardMatchingActivity.class);
         Bundle extras = new Bundle();
+        extras.putInt("LEVEL", 3);
+        extras.putString("USERNAME", username);
+
         if (page == 0){
             extras.putString("THEME","Fruits");
 
@@ -137,11 +151,11 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
         else {
             extras.putString("THEME","Animals");
 
-            extras.putString("CARDS", String.valueOf(lst));
             generate = new RandomNumberGenerator(Levels.getTotal(3) / 2, 4, 9);
             lst = generate.generateCards();
         }
 
+        extras.putString("CARDS", String.valueOf(lst));
         intent.putExtras(extras);
         startActivity(intent);
     }
@@ -149,6 +163,10 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
     public void level4Listener(View view){
         Intent intent = new Intent(this, CardMatchingActivity.class);
         Bundle extras = new Bundle();
+        extras.putInt("LEVEL", 4);
+        extras.putString("USERNAME", username);
+
+
         if (page == 0){
             extras.putString("THEME","Fruits");
 
@@ -164,11 +182,11 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
         else {
             extras.putString("THEME","Animals");
 
-            extras.putString("CARDS", String.valueOf(lst));
             generate = new RandomNumberGenerator(Levels.getTotal(4) / 2, 4, 9);
             lst = generate.generateCards();
         }
 
+        extras.putString("CARDS", String.valueOf(lst));
         intent.putExtras(extras);
         startActivity(intent);
     }
