@@ -1,16 +1,17 @@
 package edu.neu.madcourse.memoryup;
 
-import java.util.ArrayList;
 
 public class UserData {
-    public String name;
-    public int score;
+    public int maxFruit;
+    public int maxAnimal;
+    public int maxPlanet;
 
     // required for firebase getValue
     public UserData() { }
 
-    public UserData(String name, int score) {
-        this.name = name;
-        this.score = score;
+    public UserData(int maxFruit, int maxAnimal, int maxPlanet) {
+        this.maxFruit = maxFruit;
+        this.maxAnimal = maxAnimal;
+        this.maxPlanet = maxPlanet;
     }
 }

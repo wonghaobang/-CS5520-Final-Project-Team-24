@@ -50,11 +50,10 @@ public class LeaderboardActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for(DataSnapshot item_snapshot : snapshot.getChildren()) {
-//                    Log.d("hao-test", item_snapshot.getKey());
                     UserData data = item_snapshot.getValue(UserData.class);
                     if (data != null) {
-                        Log.d("hao-test", String.format("%s, %d", data.name, data.score));
-                        leaderList.add(new LeaderItem(data.name, data.score, 0, ""));
+                        Log.d("hao-test", String.format("fruit: %d, animal: %d, planet: %d", data.maxFruit, data.maxAnimal, data.maxPlanet));
+                        leaderList.add(new LeaderItem(item_snapshot.getKey(), data.maxFruit + data.maxAnimal + data.maxPlanet, 0, ""));
 
                         Collections.sort(leaderList);
 

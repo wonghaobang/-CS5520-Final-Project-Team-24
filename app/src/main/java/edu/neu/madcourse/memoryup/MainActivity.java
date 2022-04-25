@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private UserData userData = null;
 
     // audio controls
-    private boolean playMusic = true;
+    private boolean playMusic = false;
     private Intent musicService;
 
     @Override
@@ -164,8 +164,7 @@ public class MainActivity extends AppCompatActivity {
                         Snackbar.make(view, R.string.login_failure, Snackbar.LENGTH_SHORT).show();
                     } else {
                         // TODO: Set to actual value
-//                        reference.child(etUsername).setValue("");
-                        userData = new UserData(etUsername, 20);
+                        userData = new UserData(0, 0, 0);
                         reference.child(etUsername).setValue(userData);
 
                         username = etUsername;
