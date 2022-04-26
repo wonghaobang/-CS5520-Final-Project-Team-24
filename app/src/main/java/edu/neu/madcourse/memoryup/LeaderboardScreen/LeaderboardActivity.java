@@ -21,6 +21,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 
     private final ArrayList<LeaderItem> leaderList = new ArrayList<>();
     private LeaderboardViewAdapter leaderboardViewAdapter;
+    private final int levelTotal = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +52,21 @@ public class LeaderboardActivity extends AppCompatActivity {
 
                 for(DataSnapshot item_snapshot : snapshot.getChildren()) {
                     UserData data = item_snapshot.getValue(UserData.class);
+                    String userMilestone = "";
                     if (data != null) {
                         Log.d("hao-test", String.format("fruit: %d, animal: %d, planet: %d", data.maxFruit, data.maxAnimal, data.maxPlanet));
-                        leaderList.add(new LeaderItem(item_snapshot.getKey(), data.maxFruit + data.maxAnimal + data.maxPlanet, 0, ""));
+
+                        if (data.maxAnimal == levelTotal) {
+                            userMilestone += "🐤";
+                        }
+                        if (data.maxFruit == levelTotal) {
+                            userMilestone += "🍉";
+                        }
+                        if (data.maxPlanet == levelTotal) {
+                            userMilestone += "🌍";
+                        }
+
+                        leaderList.add(new LeaderItem(item_snapshot.getKey(), data.maxFruit + data.maxAnimal + data.maxPlanet, 0, userMilestone));
 
                         Collections.sort(leaderList);
 
