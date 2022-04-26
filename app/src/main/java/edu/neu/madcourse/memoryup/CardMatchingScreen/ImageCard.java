@@ -16,5 +16,6 @@ public class ImageCard extends Card<Integer, ImageView> {
     @Override
     public void faceUp() {
         cardView.setImageResource(frontOfCard);
+        cardView.setBackgroundResource(frontOfCardBackground);
     }
 }

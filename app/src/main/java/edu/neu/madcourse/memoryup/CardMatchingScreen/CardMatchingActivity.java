@@ -52,12 +52,11 @@ public class CardMatchingActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         String themeName = extras.getString("THEME");
+        Integer level = extras.getInt("LEVEL");
         ArrayList<ArrayList<Integer>> cardIndexes = convertCardsToArray(extras.getString("CARDS"));
         Log.i("Username", extras.getString("USERNAME"));
-        Log.i("Level", String.valueOf(extras.getInt("LEVEL")));
-        Log.i("Cards", extras.getString("CARDS"));
 
-        setUpHeader(themeName, 1);
+        setUpHeader(themeName, level);
         setUpCardGrid(themeName, cardIndexes);
     }
 
@@ -132,10 +131,10 @@ public class CardMatchingActivity extends AppCompatActivity {
                 } else if (matchingCard.getClass() == String.class) {
                     String frontOfCard = matchingCard.toString();
                     TextView textView = new TextView(this);
-                    textView.setGravity(Gravity.CENTER);
-                    textView.setTextColor(Color.BLACK);
                     WordCard wordCard = new WordCard(frontOfCard, textView, itemIndex);
                     wordCard.faceDown();
+                    textView.setGravity(Gravity.CENTER);
+                    textView.setTextColor(Color.BLACK);
                     textView.setOnClickListener(view -> onCardClick(wordCard));
                     views.add(textView);
                 }

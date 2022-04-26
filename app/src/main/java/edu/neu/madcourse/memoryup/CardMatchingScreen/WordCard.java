@@ -16,7 +16,7 @@ public class WordCard extends Card<String, TextView> {
 
     @Override
     public void faceUp() {
+        cardView.setBackgroundResource(frontOfCardBackground);
         cardView.setText(frontOfCard);
-        cardView.setBackgroundResource(0);
     }
 }
