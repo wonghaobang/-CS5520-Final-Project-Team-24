@@ -3,6 +3,7 @@ package edu.neu.madcourse.memoryup.LevelSelectorScreen;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,12 +34,10 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ViewPagerItem viewPagerItem = viewPagerList.get(position);
         holder.theme.setText(viewPagerItem.theme);
-        holder.text1.setText(viewPagerItem.text1);
-        holder.text2.setText(viewPagerItem.text2);
-        holder.text3.setText(viewPagerItem.text3);
-        holder.text4.setText(viewPagerItem.text4);
-        holder.text5.setText(viewPagerItem.text5);
-        holder.text6.setText(viewPagerItem.text6);
+        holder.text1.setImageResource(viewPagerItem.text1);
+        holder.text2.setImageResource(viewPagerItem.text2);
+        holder.text3.setImageResource(viewPagerItem.text3);
+        holder.text4.setImageResource(viewPagerItem.text4);
     }
 
     @Override
@@ -48,12 +47,10 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView theme;
-        TextView text1;
-        TextView text2;
-        TextView text3;
-        TextView text4;
-        TextView text5;
-        TextView text6;
+        ImageView text1;
+        ImageView text2;
+        ImageView text3;
+        ImageView text4;
         LevelClickListener levelClickListener;
 
         public ViewHolder(@NonNull View itemView, LevelClickListener levelClickListener) {
@@ -63,8 +60,6 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.View
             text2 = itemView.findViewById(R.id.text2);
             text3 = itemView.findViewById(R.id.text3);
             text4 = itemView.findViewById(R.id.text4);
-            text5 = itemView.findViewById(R.id.text5);
-            text6 = itemView.findViewById(R.id.text6);
             this.levelClickListener = levelClickListener;
             itemView.setOnClickListener(this);
         }
