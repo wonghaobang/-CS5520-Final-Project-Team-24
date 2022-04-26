@@ -4,70 +4,81 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/card_matching_background"
     tools:context=".CardMatchingScreen.CardMatchingActivity">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="16dp"
-        android:textColor="#000000"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/textview_background"
+        android:paddingVertical="8dp"
+        android:paddingHorizontal="16dp"
+        android:textAllCaps="true"
+        android:textColor="#FFFFFF"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/timerIcon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        app:srcCompat="@drawable/timer"
-        tools:ignore="MissingConstraints"
-        android:contentDescription="@string/timer_icon_description" />
-
-    <TextView
-        android:id="@+id/time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#000000"
-        tools:ignore="MissingConstraints" />
-
-    <ImageView
-        android:id="@+id/pointsIcon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        app:srcCompat="@drawable/points"
-        tools:ignore="MissingConstraints"
-        android:contentDescription="@string/points_icon_description" />
-
-    <TextView
-        android:id="@+id/points"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#000000"
-        tools:ignore="MissingConstraints" />
-
     <androidx.constraintlayout.helper.widget.Flow
         android:id="@+id/timeDisplay"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/textview_background"
+        android:padding="8dp"
         app:constraint_referenced_ids="timerIcon, time"
         app:flow_horizontalGap="8dp" />
 
     <androidx.constraintlayout.helper.widget.Flow
         android:id="@+id/pointsDisplay"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/textview_background"
+        android:padding="8dp"
         app:constraint_referenced_ids="pointsIcon, points"
         app:flow_horizontalGap="8dp" />
+
+    <ImageView
+        android:id="@+id/timerIcon"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:contentDescription="@string/timer_icon_description"
+        app:srcCompat="@drawable/hourglass"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/pointsIcon"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:contentDescription="@string/points_icon_description"
+        app:srcCompat="@drawable/star"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/points"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        tools:ignore="MissingConstraints" />
 
     <androidx.constraintlayout.helper.widget.Flow
         android:id="@+id/measurements"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="16dp"
+        android:layout_marginVertical="8dp"
         app:constraint_referenced_ids="timeDisplay,pointsDisplay"
-        app:flow_horizontalGap="32dp"
+        app:flow_horizontalGap="24dp"
         app:flow_maxElementsWrap="2"
         app:flow_wrapMode="aligned"
         app:layout_constraintEnd_toEndOf="parent"

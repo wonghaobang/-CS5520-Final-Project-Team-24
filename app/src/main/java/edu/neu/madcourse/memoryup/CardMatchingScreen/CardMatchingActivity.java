@@ -52,12 +52,11 @@ public class CardMatchingActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         String themeName = extras.getString("THEME");
+        Integer level = extras.getInt("LEVEL");
         ArrayList<ArrayList<Integer>> cardIndexes = convertCardsToArray(extras.getString("CARDS"));
         Log.i("Username", extras.getString("USERNAME"));
-        Log.i("Level", String.valueOf(extras.getInt("LEVEL")));
-        Log.i("Cards", extras.getString("CARDS"));
 
-        setUpHeader(themeName, 1);
+        setUpHeader(themeName, level);
         setUpCardGrid(themeName, cardIndexes);
     }
 
@@ -115,26 +114,27 @@ public class CardMatchingActivity extends AppCompatActivity {
     private void setUpCardGrid(String themeName, List<ArrayList<Integer>> cardIndexes) {
         Theme theme = Theme.getTheme(themeName);
         List<View> views = new ArrayList<>();
-        for (int i = 0; i < cardIndexes.size(); i++) {
-            ArrayList<Integer> indexSet = cardIndexes.get(i);
+        for (ArrayList<Integer> indexSet : cardIndexes) {
             List<Object> matchingCards = new ArrayList<>();
-            matchingCards.add(theme.getItem(indexSet.get(0), indexSet.get(2)));
-            matchingCards.add(theme.getItem(indexSet.get(1), indexSet.get(2)));
+            Integer itemIndex = indexSet.get(indexSet.size() - 1);
+            for (int i = 0; i < indexSet.size() - 1; i++) {
+                matchingCards.add(theme.getItem(indexSet.get(i), itemIndex));
+            }
             for (Object matchingCard : matchingCards) {
                 if (matchingCard.getClass() == Integer.class) {
                     Integer frontOfCard = (Integer) matchingCard;
                     ImageView imageView = new ImageView(this);
-                    ImageCard imageCard = new ImageCard(frontOfCard, imageView, i);
+                    ImageCard imageCard = new ImageCard(frontOfCard, imageView, itemIndex);
                     imageCard.faceDown();
                     imageView.setOnClickListener(view -> onCardClick(imageCard));
                     views.add(imageView);
                 } else if (matchingCard.getClass() == String.class) {
                     String frontOfCard = matchingCard.toString();
                     TextView textView = new TextView(this);
+                    WordCard wordCard = new WordCard(frontOfCard, textView, itemIndex);
+                    wordCard.faceDown();
                     textView.setGravity(Gravity.CENTER);
                     textView.setTextColor(Color.BLACK);
-                    WordCard wordCard = new WordCard(frontOfCard, textView, i);
-                    wordCard.faceDown();
                     textView.setOnClickListener(view -> onCardClick(wordCard));
                     views.add(textView);
                 }
