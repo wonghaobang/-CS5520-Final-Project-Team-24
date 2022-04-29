@@ -19,9 +19,9 @@ public class Levels {
     }};
     private static final int DEFAULT_LENGTH = 6;
     private static final Map<Integer, Integer> LEVEL_TO_TIME = new HashMap<Integer, Integer>() {{
-        put(1, 20000);
-        put(2, 30000);
-        put(3, 50000);
+        put(1, 45000);
+        put(2, 50000);
+        put(3, 55000);
         put(4, 60000);
     }};
     private static final int DEFAULT_TIME = 60000;

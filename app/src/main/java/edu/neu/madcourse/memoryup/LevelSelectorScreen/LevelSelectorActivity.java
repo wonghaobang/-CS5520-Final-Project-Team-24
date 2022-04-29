@@ -160,7 +160,7 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
         extras.putInt("LEVEL", 1);
         extras.putString("USERNAME", username);
 
-        if (page == 0 && maxFruitLevel >= 1){
+        if (page == 0 && maxFruitLevel >= 0){
             extras.putString("THEME","Fruits");
 
             generate = new RandomNumberGenerator(Levels.getTotal(1) / 2, 3, 10);
@@ -169,7 +169,7 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
             intent.putExtras(extras);
             startActivity(intent);
         }
-        else if (page == 2 && maxPlanetLevel >= 1){
+        else if (page == 2 && maxPlanetLevel >= 0){
             extras.putString("THEME","Planets");
 
             generate = new RandomNumberGenerator(Levels.getTotal(1) / 2, 4, 9);
@@ -178,7 +178,7 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
             intent.putExtras(extras);
             startActivity(intent);
         }
-        else if (page == 1 && maxAnimalLevel >= 1) {
+        else if (page == 1 && maxAnimalLevel >= 0) {
             extras.putString("THEME","Animals");
 
             generate = new RandomNumberGenerator(Levels.getTotal(1) / 2, 3, 10);
@@ -195,7 +195,7 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
         extras.putInt("LEVEL", 2);
         extras.putString("USERNAME", username);
 
-        if (page == 0 && maxFruitLevel >= 2){
+        if (page == 0 && maxFruitLevel >= 1){
             extras.putString("THEME","Fruits");
 
             generate = new RandomNumberGenerator(Levels.getTotal(2) / 2, 3, 10);
@@ -204,7 +204,7 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
             intent.putExtras(extras);
             startActivity(intent);
         }
-        else if (page == 2 && maxPlanetLevel >= 2){
+        else if (page == 2 && maxPlanetLevel >= 1){
             extras.putString("THEME","Planets");
 
             generate = new RandomNumberGenerator(Levels.getTotal(2) / 2, 4, 9);
@@ -213,7 +213,7 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
             intent.putExtras(extras);
             startActivity(intent);
         }
-        else if (page == 1 && maxAnimalLevel >= 2){
+        else if (page == 1 && maxAnimalLevel >= 1){
             extras.putString("THEME","Animals");
 
             generate = new RandomNumberGenerator(Levels.getTotal(2) / 2, 3, 10);
@@ -230,7 +230,7 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
         extras.putInt("LEVEL", 3);
         extras.putString("USERNAME", username);
 
-        if (page == 0 && maxFruitLevel >= 3){
+        if (page == 0 && maxFruitLevel >= 2){
             extras.putString("THEME","Fruits");
 
             generate = new RandomNumberGenerator(Levels.getTotal(3) / 2, 3, 10);
@@ -240,7 +240,7 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
             intent.putExtras(extras);
             startActivity(intent);
         }
-        else if (page == 2 && maxPlanetLevel >= 3){
+        else if (page == 2 && maxPlanetLevel >= 2){
             extras.putString("THEME","Planets");
 
             generate = new RandomNumberGenerator(Levels.getTotal(3) / 2, 4, 9);
@@ -250,7 +250,7 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
             intent.putExtras(extras);
             startActivity(intent);
         }
-        else if (page == 1 && maxAnimalLevel >= 3){
+        else if (page == 1 && maxAnimalLevel >= 2){
             extras.putString("THEME","Animals");
 
             generate = new RandomNumberGenerator(Levels.getTotal(3) / 2, 3, 10);
@@ -268,7 +268,7 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
         extras.putInt("LEVEL", 4);
         extras.putString("USERNAME", username);
 
-        if (page == 0 && maxFruitLevel >= 4){
+        if (page == 0 && maxFruitLevel >= 3){
             extras.putString("THEME","Fruits");
 
             generate = new RandomNumberGenerator(Levels.getTotal(4) / 2, 3, 10);
@@ -278,7 +278,7 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
             intent.putExtras(extras);
             startActivity(intent);
         }
-        else if (page == 2 && maxPlanetLevel >= 4){
+        else if (page == 2 && maxPlanetLevel >= 3){
             extras.putString("THEME","Planets");
 
             generate = new RandomNumberGenerator(Levels.getTotal(4) / 2, 4, 9);
@@ -288,7 +288,7 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
             intent.putExtras(extras);
             startActivity(intent);
         }
-        else if (page == 1 && maxAnimalLevel >= 4){
+        else if (page == 1 && maxAnimalLevel >= 3){
             extras.putString("THEME","Animals");
 
             generate = new RandomNumberGenerator(Levels.getTotal(4) / 2, 3, 10);
