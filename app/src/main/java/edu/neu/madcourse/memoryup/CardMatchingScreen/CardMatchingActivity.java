@@ -1,10 +1,12 @@
 package edu.neu.madcourse.memoryup.CardMatchingScreen;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -15,6 +17,12 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,8 +30,8 @@ import java.util.List;
 import edu.neu.madcourse.memoryup.LevelSelectorScreen.LevelSelectorActivity;
 import edu.neu.madcourse.memoryup.LevelThemes.Levels;
 import edu.neu.madcourse.memoryup.LevelThemes.Theme;
-import edu.neu.madcourse.memoryup.MainActivity;
 import edu.neu.madcourse.memoryup.R;
+import edu.neu.madcourse.memoryup.UserData;
 
 public class CardMatchingActivity extends AppCompatActivity {
     private static final int MILLISECONDS_IN_SECOND = 1000;
@@ -31,7 +39,7 @@ public class CardMatchingActivity extends AppCompatActivity {
     private static final int COUNTDOWN_INTERVAL_MILLISECONDS = 1000;
     private static final int DOUBLE_DIGITS = 10;
     private static final int CARD_SIZE = 225;
-    private static final int CARD_REMOVAL_DELAY = 1000;
+    private static final int CARD_REMOVAL_DELAY = 250;
     private static final int MAX_FACE_UP_CARDS = 2;
     private static final int MATCH_POINTS = 100;
     private boolean started = false;
@@ -43,21 +51,29 @@ public class CardMatchingActivity extends AppCompatActivity {
     private int points = 0;
     private int maxPoints;
 
+    // loaded data
+    private String themeName;
+    private int level;
+    private DatabaseReference database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_matching);
 
-        // Bundle Theme and CardsArray
+        // Receive data from level selector
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-        String themeName = extras.getString("THEME");
-        Integer level = extras.getInt("LEVEL");
+        themeName = extras.getString("THEME");
+        level = extras.getInt("LEVEL");
+        String username = extras.getString("USERNAME");
         ArrayList<ArrayList<Integer>> cardIndexes = convertCardsToArray(extras.getString("CARDS"));
-        Log.i("Username", extras.getString("USERNAME"));
 
-        setUpHeader(themeName, level);
-        setUpCardGrid(themeName, cardIndexes);
+        // connect to database
+        database = FirebaseDatabase.getInstance().getReference().child("users").child(username);
+
+        setUpHeader();
+        setUpCardGrid(cardIndexes);
     }
 
     // Converts CardsArray from String to ArrayList<ArrayList<Integer>>
@@ -103,15 +119,15 @@ public class CardMatchingActivity extends AppCompatActivity {
         super.onStop();
     }
 
-    private void setUpHeader(String theme, Integer level) {
+    private void setUpHeader() {
         TextView tvTitle = findViewById(R.id.title);
-        tvTitle.setText(getString(R.string.title, theme, level));
+        tvTitle.setText(getString(R.string.title, themeName, level));
         millisecondsLeft = Levels.getTime(level);
         buildCountDownTimer(millisecondsLeft);
         showPoints();
     }
 
-    private void setUpCardGrid(String themeName, List<ArrayList<Integer>> cardIndexes) {
+    private void setUpCardGrid(List<ArrayList<Integer>> cardIndexes) {
         Theme theme = Theme.getTheme(themeName);
         List<View> views = new ArrayList<>();
         for (ArrayList<Integer> indexSet : cardIndexes) {
@@ -209,6 +225,12 @@ public class CardMatchingActivity extends AppCompatActivity {
             faceUpCards.add(card);
             if (faceUpCards.size() == MAX_FACE_UP_CARDS) {
                 if (areFaceUpCardsMatching()) {
+                    // play match sound
+                    MediaPlayer player = MediaPlayer.create(this, R.raw.success_sound_effect);
+                    player.start();
+                    player.setOnCompletionListener(mp -> player.release());
+
+                    // clean up grid
                     disableClicksOnMatchedCards();
                     updatePoints();
                     cardsLeft -= faceUpCards.size();
@@ -277,6 +299,44 @@ public class CardMatchingActivity extends AppCompatActivity {
 
         TextView tvTitle = results.findViewById(R.id.title);
         if (cardsLeft == 0) {
+            // play victory sound
+            MediaPlayer player = MediaPlayer.create(this, R.raw.victory_sound);
+            player.start();
+            player.setOnCompletionListener(mp -> player.release());
+
+            // update max level if it has changed
+            database.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        UserData data = snapshot.getValue(UserData.class);
+                        if (data != null) {
+                            int maxFruit = data.maxFruit;
+                            int maxAnimal = data.maxAnimal;
+                            int maxPlanet = data.maxPlanet;
+
+                            switch (themeName) {
+                                case "Fruits":
+                                    if (level > maxFruit)
+                                        database.setValue(new UserData (level, maxAnimal, maxPlanet));
+                                    break;
+                                case "Animals":
+                                    if (level > maxAnimal)
+                                        database.setValue(new UserData (maxFruit, level, maxPlanet));
+                                    break;
+                                case "Planets":
+                                    if (level > maxPlanet)
+                                        database.setValue(new UserData (maxFruit, maxAnimal, level));
+                                    break;
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) { }
+            });
+
             tvTitle.setText(R.string.results_title_victory);
         } else {
             tvTitle.setText(R.string.results_title_time_up);
@@ -287,8 +347,7 @@ public class CardMatchingActivity extends AppCompatActivity {
 
         ImageView mainMenuIcon = results.findViewById(R.id.mainMenuIcon);
         mainMenuIcon.setOnClickListener(view -> {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            this.finish();
         });
 
         ImageView levelsIcon = results.findViewById(R.id.levelsIcon);
@@ -299,4 +358,4 @@ public class CardMatchingActivity extends AppCompatActivity {
 
         results.show();
     }
-}
+            }
