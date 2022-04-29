@@ -317,6 +317,7 @@ public class CardMatchingActivity extends AppCompatActivity {
                     if (snapshot.exists()) {
                         UserData data = snapshot.getValue(UserData.class);
                         if (data != null) {
+                            String country = data.country;
                             int maxFruit = data.maxFruit;
                             int maxAnimal = data.maxAnimal;
                             int maxPlanet = data.maxPlanet;
@@ -324,15 +325,15 @@ public class CardMatchingActivity extends AppCompatActivity {
                             switch (themeName) {
                                 case "Fruits":
                                     if (level > maxFruit)
-                                        database.setValue(new UserData (level, maxAnimal, maxPlanet));
+                                        database.setValue(new UserData (country, level, maxAnimal, maxPlanet));
                                     break;
                                 case "Animals":
                                     if (level > maxAnimal)
-                                        database.setValue(new UserData (maxFruit, level, maxPlanet));
+                                        database.setValue(new UserData (country, maxFruit, level, maxPlanet));
                                     break;
                                 case "Planets":
                                     if (level > maxPlanet)
-                                        database.setValue(new UserData (maxFruit, maxAnimal, level));
+                                        database.setValue(new UserData (country, maxFruit, maxAnimal, level));
                                     break;
                             }
                         }

@@ -1,12 +1,22 @@
 package edu.neu.madcourse.memoryup;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -24,13 +34,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
+import java.util.Locale;
 
 import edu.neu.madcourse.memoryup.LeaderboardScreen.LeaderboardActivity;
 import edu.neu.madcourse.memoryup.LevelSelectorScreen.LevelSelectorActivity;
@@ -64,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
         // attempt to load username from local storage
         if (username == null)
             getUsername();
+
+        // get/update user country if permissions are enabled
+        getCountry();
 
         SwitchCompat musicSwitch = findViewById(R.id.musicSwitch);
         musicSwitch.setOnCheckedChangeListener((compoundButton, b) -> toggleMusic(b));
@@ -118,6 +129,76 @@ public class MainActivity extends AppCompatActivity {
             promptLogin();
     }
 
+    private void getCountry () {
+        LocationManager sensor = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        // set provider based on permissions
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+            ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            this.getCurrentLocation(sensor);
+        } else {
+            ActivityResultLauncher<String[]> permissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result ->
+            {
+                // request permission for both coarse and fine, but accepting just coarse is sufficient
+                Boolean fineLocationGranted = result.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false);
+                Boolean coarseLocationGranted = result.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION,false);
+
+                if ((fineLocationGranted != null && fineLocationGranted) || (coarseLocationGranted != null && coarseLocationGranted)) {
+                    this.getCurrentLocation(sensor);
+                }
+                else {
+                    final String message = "Enable permissions to share your location.";
+                    Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            });
+
+            permissionLauncher.launch(new String[] {
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+            });
+        }
+    }
+
+    // get provider type based on permissions and availability
+    @SuppressLint("MissingPermission")  // always called after permissions are checked
+    private void getCurrentLocation(LocationManager sensor) {
+        List<String> providers = sensor.getProviders(true);
+
+        // get location
+        Location bestLocation = null;
+        for (String provider : providers) {
+            Location location = sensor.getLastKnownLocation(provider);
+            if (location == null)
+                continue;
+
+            if (bestLocation == null || location.getAccuracy() < bestLocation.getAccuracy()) {
+                bestLocation = location;
+            }
+        }
+
+        if (bestLocation == null) {
+            return;
+        }
+
+        // launch geocoder to get country name
+        String country = "";
+        Geocoder gcd = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> addresses = gcd.getFromLocation(bestLocation.getLatitude(), bestLocation.getLongitude(), 1);
+            if (addresses != null && !addresses.isEmpty()) {
+                country = addresses.get(0).getCountryName();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // if country has changed, send to database
+        if (!country.equals("")) {
+            reference.child(username).setValue(userData);
+        }
+    }
+
     // request username entry
     private void promptLogin() {
         LayoutInflater inflater = getLayoutInflater();
@@ -170,7 +251,7 @@ public class MainActivity extends AppCompatActivity {
                     if (logIn) {
                         Snackbar.make(view, R.string.login_failure, Snackbar.LENGTH_SHORT).show();
                     } else {
-                        userData = new UserData(0, 0, 0);
+                        userData = new UserData("", 0, 0, 0);
                         reference.child(etUsername).setValue(userData);
 
                         username = etUsername;
