@@ -80,57 +80,49 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
                     maxPlanetLevel = data.maxPlanet;
 
                     ViewPagerItem viewPagerItem;
-                    if (maxFruitLevel == 1){
+                    if (maxFruitLevel == 0){
                         viewPagerItem = new ViewPagerItem("Fruits", levelOne, lock, lock, lock);
                     }
-                    else if (maxFruitLevel == 2){
+                    else if (maxFruitLevel == 1){
                         viewPagerItem = new ViewPagerItem("Fruits", levelOne, levelTwo, lock, lock);
                     }
-                    else if (maxFruitLevel == 3){
+                    else if (maxFruitLevel == 2){
                         viewPagerItem = new ViewPagerItem("Fruits", levelOne, levelTwo, levelThree, lock);
                     }
-                    else if (maxFruitLevel == 4){
-                        viewPagerItem = new ViewPagerItem("Fruits", levelOne, levelTwo, levelThree, levelFour);
-                    }
                     else {
-                        viewPagerItem = new ViewPagerItem("Fruits",lock, lock, lock, lock);
+                        viewPagerItem = new ViewPagerItem("Fruits", levelOne, levelTwo, levelThree, levelFour);
                     }
                     viewPagerItemLst.add(viewPagerItem);
 
                     ViewPagerItem viewPagerItem2;
-                    if (maxAnimalLevel == 1){
+                    if (maxAnimalLevel == 0){
                         viewPagerItem2 = new ViewPagerItem("Animals", levelOne, lock, lock, lock);
                     }
-                    else if (maxAnimalLevel == 2){
+                    else if (maxAnimalLevel == 1){
                         viewPagerItem2 = new ViewPagerItem("Animals", levelOne, levelTwo, lock, lock);
                     }
-                    else if (maxAnimalLevel == 3){
+                    else if (maxAnimalLevel == 2){
                         viewPagerItem2 = new ViewPagerItem("Animals", levelOne, levelTwo, levelThree, lock);
                     }
-                    else if (maxAnimalLevel == 4){
-                        viewPagerItem2 = new ViewPagerItem("Animals", levelOne, levelTwo, levelThree, levelFour);
-                    }
                     else {
-                        viewPagerItem2 = new ViewPagerItem("Animals",lock, lock, lock, lock);
+                        viewPagerItem2 = new ViewPagerItem("Animals", levelOne, levelTwo, levelThree, levelFour);
                     }
                     viewPagerItemLst.add(viewPagerItem2);
 
                     ViewPagerItem viewPagerItem3;
-                    if (maxPlanetLevel == 1){
+                    if (maxPlanetLevel == 0){
                         viewPagerItem3 = new ViewPagerItem("Planets", levelOne, lock, lock, lock);
                     }
-                    else if (maxPlanetLevel == 2){
+                    else if (maxPlanetLevel == 1){
                         viewPagerItem3 = new ViewPagerItem("Planets", levelOne, levelTwo, lock, lock);
                     }
-                    else if (maxPlanetLevel == 3){
+                    else if (maxPlanetLevel == 2){
                         viewPagerItem3 = new ViewPagerItem("Planets", levelOne, levelTwo, levelThree, lock);
                     }
-                    else if (maxPlanetLevel == 4){
+                    else {
                         viewPagerItem3 = new ViewPagerItem("Planets", levelOne, levelTwo, levelThree, levelFour);
                     }
-                    else {
-                        viewPagerItem3 = new ViewPagerItem("Planets",lock, lock, lock, lock);
-                    }
+
                     viewPagerItemLst.add(viewPagerItem3);
 
                     ViewPagerAdapter vpAdapter = new ViewPagerAdapter(viewPagerItemLst,  LevelSelectorActivity.this);
