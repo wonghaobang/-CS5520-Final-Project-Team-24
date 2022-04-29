@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
     // audio controls
     private boolean playMusic = false;
+    private boolean playAudio = true;
     private Intent musicService;
 
     @Override
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState != null && savedInstanceState.containsKey("username")) {
             username = savedInstanceState.getString("username");
             playMusic = savedInstanceState.getInt("playMusic") == 1;
+            playAudio = savedInstanceState.getInt("playAudio") == 1;
         }
 
         // attempt to load username from local storage
@@ -66,6 +68,10 @@ public class MainActivity extends AppCompatActivity {
         SwitchCompat musicSwitch = findViewById(R.id.musicSwitch);
         musicSwitch.setOnCheckedChangeListener((compoundButton, b) -> toggleMusic(b));
         musicSwitch.setChecked(playMusic);
+
+        SwitchCompat audioSwitch = findViewById(R.id.audioSwitch);
+        audioSwitch.setOnCheckedChangeListener((compoundButton, b) -> toggleAudio(b));
+        audioSwitch.setChecked(playAudio);
     }
 
     @Override
@@ -89,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         if (username != null) {
             outState.putString("username", username);
             outState.putInt("playMusic", (playMusic ? 0 : 1));
+            outState.putInt("playMusic", (playAudio ? 0 : 1));
         }
         super.onSaveInstanceState(outState);
     }
@@ -163,7 +170,6 @@ public class MainActivity extends AppCompatActivity {
                     if (logIn) {
                         Snackbar.make(view, R.string.login_failure, Snackbar.LENGTH_SHORT).show();
                     } else {
-                        // TODO: Set to actual value
                         userData = new UserData(0, 0, 0);
                         reference.child(etUsername).setValue(userData);
 
@@ -182,17 +188,26 @@ public class MainActivity extends AppCompatActivity {
 
     // start background music
     private void toggleMusic(boolean on) {
-        if (on)
+        playMusic = on;
+
+        if (on) {
             startService(musicService);
-        else
+        }
+        else {
             stopService(musicService);
+        }
     }
 
+    // start background music
+    private void toggleAudio(boolean on) {
+        playAudio = on;
+    }
 
     // launch level selector activity
     public void onPlay(View view) {
         Intent intent = new Intent(this, LevelSelectorActivity.class);
         intent.putExtra("Username", username);
+        intent.putExtra("Audio", playAudio);
         startActivity(intent);
     }
 

@@ -37,6 +37,7 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
     private ArrayList<ArrayList<Integer>> lst;
 
     private String username;
+    private boolean playAudio;
     //private LevelImageMap imageMap;
 
     private int levelOne = R.drawable.levelone;
@@ -59,6 +60,7 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         username = extras.getString("Username");
+        playAudio = extras.getBoolean("Audio");
 
         // Set Level Selector
         viewPager2 = findViewById(R.id.pager);
@@ -159,6 +161,7 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
         Bundle extras = new Bundle();
         extras.putInt("LEVEL", 1);
         extras.putString("USERNAME", username);
+        extras.putBoolean("AUDIO", playAudio);
 
         if (page == 0 && maxFruitLevel >= 0){
             extras.putString("THEME","Fruits");
@@ -194,6 +197,7 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
         Bundle extras = new Bundle();
         extras.putInt("LEVEL", 2);
         extras.putString("USERNAME", username);
+        extras.putBoolean("AUDIO", playAudio);
 
         if (page == 0 && maxFruitLevel >= 1){
             extras.putString("THEME","Fruits");
@@ -229,6 +233,7 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
         Bundle extras = new Bundle();
         extras.putInt("LEVEL", 3);
         extras.putString("USERNAME", username);
+        extras.putBoolean("AUDIO", playAudio);
 
         if (page == 0 && maxFruitLevel >= 2){
             extras.putString("THEME","Fruits");
@@ -267,6 +272,7 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
         Bundle extras = new Bundle();
         extras.putInt("LEVEL", 4);
         extras.putString("USERNAME", username);
+        extras.putBoolean("AUDIO", playAudio);
 
         if (page == 0 && maxFruitLevel >= 3){
             extras.putString("THEME","Fruits");

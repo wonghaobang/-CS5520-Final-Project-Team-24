@@ -52,6 +52,7 @@ public class CardMatchingActivity extends AppCompatActivity {
     private int maxPoints;
 
     // loaded data
+    private boolean playAudio;
     private String themeName;
     private int level;
     private DatabaseReference database;
@@ -64,6 +65,7 @@ public class CardMatchingActivity extends AppCompatActivity {
         // Receive data from level selector
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
+        playAudio = extras.getBoolean("AUDIO");
         themeName = extras.getString("THEME");
         level = extras.getInt("LEVEL");
         String username = extras.getString("USERNAME");
@@ -226,9 +228,11 @@ public class CardMatchingActivity extends AppCompatActivity {
             if (faceUpCards.size() == MAX_FACE_UP_CARDS) {
                 if (areFaceUpCardsMatching()) {
                     // play match sound
-                    MediaPlayer player = MediaPlayer.create(this, R.raw.success_sound_effect);
-                    player.start();
-                    player.setOnCompletionListener(mp -> player.release());
+                    if (playAudio) {
+                        MediaPlayer player = MediaPlayer.create(this, R.raw.success_sound_effect);
+                        player.start();
+                        player.setOnCompletionListener(mp -> player.release());
+                    }
 
                     // clean up grid
                     disableClicksOnMatchedCards();
@@ -300,9 +304,11 @@ public class CardMatchingActivity extends AppCompatActivity {
         TextView tvTitle = results.findViewById(R.id.title);
         if (cardsLeft == 0) {
             // play victory sound
-            MediaPlayer player = MediaPlayer.create(this, R.raw.victory_sound);
-            player.start();
-            player.setOnCompletionListener(mp -> player.release());
+            if (playAudio) {
+                MediaPlayer player = MediaPlayer.create(this, R.raw.victory_sound);
+                player.start();
+                player.setOnCompletionListener(mp -> player.release());
+            }
 
             // update max level if it has changed
             database.addListenerForSingleValueEvent(new ValueEventListener() {
