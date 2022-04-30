@@ -68,7 +68,11 @@ public class LeaderboardActivity extends AppCompatActivity {
                             userMilestone += "🌍";
                         }
 
-                        leaderList.add(new LeaderItem(String.format("%s %s", Flag.getFlag(data.country), item_snapshot.getKey()), data.maxFruit + data.maxAnimal + data.maxPlanet, 0, userMilestone));
+                        // handle no-flag case
+                        if (data.country.equals(""))
+                            leaderList.add(new LeaderItem(item_snapshot.getKey(), data.maxFruit + data.maxAnimal + data.maxPlanet, 0, userMilestone));
+                        else
+                            leaderList.add(new LeaderItem(String.format("%s %s", Flag.getFlag(data.country), item_snapshot.getKey()), data.maxFruit + data.maxAnimal + data.maxPlanet, 0, userMilestone));
 //                        leaderList.add(new LeaderItem( item_snapshot.getKey(), data.maxFruit + data.maxAnimal + data.maxPlanet, 0, userMilestone));
 
                         Collections.sort(leaderList);

@@ -129,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
             promptLogin();
     }
 
+    // get the country of the user's location, if permissions allow
     private void getCountry () {
         LocationManager sensor = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
@@ -137,6 +138,10 @@ public class MainActivity extends AppCompatActivity {
             ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             this.getCurrentLocation(sensor);
         } else {
+            final String message = "Enable permissions to share your country on the leaderboard.";
+            Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+            toast.show();
+
             ActivityResultLauncher<String[]> permissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result ->
             {
                 // request permission for both coarse and fine, but accepting just coarse is sufficient
@@ -145,11 +150,6 @@ public class MainActivity extends AppCompatActivity {
 
                 if ((fineLocationGranted != null && fineLocationGranted) || (coarseLocationGranted != null && coarseLocationGranted)) {
                     this.getCurrentLocation(sensor);
-                }
-                else {
-                    final String message = "Enable permissions to share your location.";
-                    Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
-                    toast.show();
                 }
             });
 
