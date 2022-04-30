@@ -14,6 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
+import edu.neu.madcourse.memoryup.Flag;
 import edu.neu.madcourse.memoryup.R;
 import edu.neu.madcourse.memoryup.UserData;
 
@@ -22,6 +23,7 @@ public class LeaderboardActivity extends AppCompatActivity {
     private final ArrayList<LeaderItem> leaderList = new ArrayList<>();
     private LeaderboardViewAdapter leaderboardViewAdapter;
     private final int levelTotal = 4;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +68,8 @@ public class LeaderboardActivity extends AppCompatActivity {
                             userMilestone += "🌍";
                         }
 
-                        leaderList.add(new LeaderItem(item_snapshot.getKey(), data.maxFruit + data.maxAnimal + data.maxPlanet, 0, userMilestone));
+                        leaderList.add(new LeaderItem(String.format("%s %s", Flag.getFlag(data.country), item_snapshot.getKey()), data.maxFruit + data.maxAnimal + data.maxPlanet, 0, userMilestone));
+//                        leaderList.add(new LeaderItem( item_snapshot.getKey(), data.maxFruit + data.maxAnimal + data.maxPlanet, 0, userMilestone));
 
                         Collections.sort(leaderList);
 
