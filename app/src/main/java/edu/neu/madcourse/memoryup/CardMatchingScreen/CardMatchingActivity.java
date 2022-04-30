@@ -30,6 +30,7 @@ import java.util.List;
 import edu.neu.madcourse.memoryup.LevelSelectorScreen.LevelSelectorActivity;
 import edu.neu.madcourse.memoryup.LevelThemes.Levels;
 import edu.neu.madcourse.memoryup.LevelThemes.Theme;
+import edu.neu.madcourse.memoryup.MainActivity;
 import edu.neu.madcourse.memoryup.R;
 import edu.neu.madcourse.memoryup.UserData;
 
@@ -354,13 +355,13 @@ public class CardMatchingActivity extends AppCompatActivity {
 
         ImageView mainMenuIcon = results.findViewById(R.id.mainMenuIcon);
         mainMenuIcon.setOnClickListener(view -> {
-            this.finish();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
         });
 
         ImageView levelsIcon = results.findViewById(R.id.levelsIcon);
         levelsIcon.setOnClickListener(view -> {
-            Intent intent = new Intent(this, LevelSelectorActivity.class);
-            startActivity(intent);
+            this.finish();
         });
 
         results.show();
