@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LevelSelectorScreen.LevelSelectorActivity"
-    android:background="@drawable/test_background">
+    android:background="@drawable/card_matching_background">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,20 +18,24 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"></androidx.viewpager2.widget.ViewPager2>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_previous"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/icon_background"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="25dp"
             android:onClick="previousButton"
-            android:text="Previous" />
+            android:text="Previous"
+            android:textAllCaps="false"
+            android:textColor="#000000" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/icon_background"
             android:layout_alignParentRight="true"
             android:layout_marginStart="20dp"
             android:layout_marginTop="25dp"
@@ -39,6 +43,8 @@
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp"
             android:onClick="nextButton"
-            android:text="Next" />
+            android:text="Next"
+            android:textAllCaps="false"
+            android:textColor="#000000" />
     </RelativeLayout>
 </LinearLayout>
