@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -26,7 +26,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -135,13 +134,13 @@ public class MainActivity extends AppCompatActivity {
             showUsername();
         } catch (Exception e) {
             // no file was found
-            AlertDialog dialog = promptLogin();
+            Dialog dialog = promptLogin();
             dialog.show();
         }
 
         // just in case file was invalid
         if (username == null) {
-            AlertDialog dialog = promptLogin();
+            Dialog dialog = promptLogin();
             dialog.show();
         }
 
@@ -235,17 +234,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // request username entry
-    private AlertDialog promptLogin() {
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_login, null);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(dialogView);
-        builder.setCancelable(false);
-        AlertDialog dialog = builder.create();
+    private Dialog promptLogin() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_login);
+        dialog.setCancelable(false);
 
-        EditText etUsername = dialogView.findViewById(R.id.editTextUsername);
-        Button logInButton = dialogView.findViewById(R.id.buttonLogIn);
-        Button signUpButton = dialogView.findViewById(R.id.buttonSignUp);
+        EditText etUsername = dialog.findViewById(R.id.editTextUsername);
+        Button logInButton = dialog.findViewById(R.id.buttonLogIn);
+        Button signUpButton = dialog.findViewById(R.id.buttonSignUp);
 
         etUsername.addTextChangedListener(new TextWatcher() {
             @Override
@@ -270,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // connect given username to firebase
-    private void addFirebaseListener(String etUsername, boolean logIn, View view, AlertDialog dialog) {
+    private void addFirebaseListener(String etUsername, boolean logIn, View view, Dialog dialog) {
         // create a new user if name does not exist
         reference.child(etUsername).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -428,7 +424,7 @@ public class MainActivity extends AppCompatActivity {
 
     // change username
     public void onChangeUser(View view) {
-        AlertDialog dialog = promptLogin();
+        Dialog dialog = promptLogin();
         dialog.setCancelable(true);
         dialog.show();
     }
