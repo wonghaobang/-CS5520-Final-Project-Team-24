@@ -5,14 +5,20 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -38,6 +44,8 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -54,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
     private boolean playMusic = false;
     private boolean playAudio = true;
     private Intent musicService;
+
+    // notifications
+    private NotificationManager notificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +93,10 @@ public class MainActivity extends AppCompatActivity {
         SwitchCompat audioSwitch = findViewById(R.id.audioSwitch);
         audioSwitch.setOnCheckedChangeListener((compoundButton, b) -> toggleAudio(b));
         audioSwitch.setChecked(playAudio);
+
+        // set up notifications
+        createNotificationChannel();
+        launchNotificationListener();
     }
 
     @Override
@@ -271,6 +286,93 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Fail to read data " + error, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    // create notification channel
+    private void createNotificationChannel() {
+        CharSequence name = getString(R.string.channel_name);
+        String description = getString(R.string.channel_description);
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        NotificationChannel channel = new NotificationChannel(getString(R.string.channel_id), name, importance);
+        channel.setDescription(description);
+
+        // Register the channel with the system
+        notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
+    }
+
+    // launch listener for notifications to send
+    private void launchNotificationListener() {
+        // add a listener for changes to given user
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot changedUser : snapshot.getChildren()) {
+                    UserData changedData = changedUser.getValue(UserData.class);
+                    String changedUsername = changedUser.getKey();
+
+                    if (changedUsername == null || changedData == null)
+                        continue;
+
+                    // for current user, just update stored data
+                    if (changedUsername.equals(username)) {
+                        userData = changedData;
+                        continue;
+                    }
+
+                    // send notification when other user exceed your score
+                    int userScore = userData.maxAnimal + userData.maxFruit + userData.maxPlanet;
+                    int changedScore = changedData.maxAnimal + changedData.maxFruit + changedData.maxPlanet;
+                    if (changedScore > userScore) {
+                        sendNotification(changedUsername, changedData.country);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        };
+        reference.addValueEventListener(postListener);
+    }
+
+    // send a notification
+    private void sendNotification(String otherUser, String otherCountry) {
+        // check with saved data to see when last notification was sent
+        long currentTime = new Date().getTime() / 1000;
+        try {
+            FileInputStream file = this.openFileInput("lastNotification");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(file));
+            int lastTime = Integer.parseInt(reader.readLine());
+            file.close();
+            reader.close();
+
+            // if last notification was under a day ago, do nothing
+            if (currentTime - lastTime < 86400)
+                return;
+        } catch (Exception ignored) { } // no file was found, so sending is okay
+
+        String message;
+        if (!otherCountry.equals(""))
+            message = otherUser + " just passed you on the leaderboard. Reclaim your spot!";
+        else
+            message = otherUser + "from " + otherCountry + " just passed you on the leaderboard. Reclaim your spot!";
+
+       NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getString(R.string.channel_id))
+                .setSmallIcon(R.drawable.icon_background)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        notificationManager.notify(0, builder.build());
+
+        // save sent time to file
+        try {
+            FileOutputStream fos = this.getBaseContext().openFileOutput("lastNotification", Context.MODE_PRIVATE);
+            fos.write(String.valueOf(currentTime).getBytes());
+            fos.close();
+        } catch (Exception e) {
+            Toast.makeText(MainActivity.this, "Notification time not saved", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
     }
 
     // start background music

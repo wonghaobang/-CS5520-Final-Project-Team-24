@@ -25,4 +25,7 @@
     <string name="level_four">level_four</string>
     <string name="user_greeting">Hi, %1$s!</string>
     <string name="change_user_icon_description">change user</string>
+    <string name="channel_id">leaderboard_notif</string>
+    <string name="channel_name">leaderboard_channel</string>
+    <string name="channel_description">Channel for notifications concerning leaderboard position.</string>
 </resources>
