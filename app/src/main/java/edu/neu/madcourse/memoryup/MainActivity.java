@@ -24,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState != null && savedInstanceState.containsKey("username")) {
             username = savedInstanceState.getString("username");
+            showUsername();
             playMusic = savedInstanceState.getInt("playMusic") == 1;
             playAudio = savedInstanceState.getInt("playAudio") == 1;
         }
@@ -121,12 +123,15 @@ public class MainActivity extends AppCompatActivity {
             reader.close();
         } catch (Exception e) {
             // no file was found
-            promptLogin();
+            AlertDialog dialog = promptLogin();
+            dialog.show();
         }
 
         // just in case file was invalid
-        if (username == null)
-            promptLogin();
+        if (username == null) {
+            AlertDialog dialog = promptLogin();
+            dialog.show();
+        }
     }
 
     // get the country of the user's location, if permissions allow
@@ -200,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // request username entry
-    private void promptLogin() {
+    private AlertDialog promptLogin() {
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_login, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -231,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
         signUpButton.setOnClickListener(view ->
                 addFirebaseListener(etUsername.getText().toString(), false, view, dialog));
 
-        dialog.show();
+        return dialog;
     }
 
     // connect given username to firebase
@@ -244,6 +249,7 @@ public class MainActivity extends AppCompatActivity {
                     if (logIn) {
                         username = etUsername;
                         dialog.dismiss();
+                        showUsername();
                     } else {
                         Snackbar.make(view, R.string.signup_failure, Snackbar.LENGTH_SHORT).show();
                     }
@@ -256,6 +262,7 @@ public class MainActivity extends AppCompatActivity {
 
                         username = etUsername;
                         dialog.dismiss();
+                        showUsername();
                     }
                 }
             }
@@ -301,6 +308,13 @@ public class MainActivity extends AppCompatActivity {
 
     // change username
     public void onChangeUser(View view) {
-        promptLogin();
+        AlertDialog dialog = promptLogin();
+        dialog.setCancelable(true);
+        dialog.show();
+    }
+
+    private void showUsername() {
+        TextView userGreeting = findViewById(R.id.userGreeting);
+        userGreeting.setText(getString(R.string.user_greeting, username));
     }
 }

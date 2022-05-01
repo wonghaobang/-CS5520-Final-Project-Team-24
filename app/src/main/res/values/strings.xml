@@ -19,9 +19,10 @@
     <string name="results_points">%1$d out of %2$d</string>
     <string name="main_menu_icon_description">go to main menu</string>
     <string name="levels_icon_description">go to level selector</string>
-    <string name="change_user">Change User</string>
     <string name="level_one">level_one</string>
     <string name="level_two">level_two</string>
     <string name="level_three">level_three</string>
     <string name="level_four">level_four</string>
+    <string name="user_greeting">Hi, %1$s!</string>
+    <string name="change_user_icon_description">change user</string>
 </resources>
