@@ -144,6 +144,24 @@ public class MainActivity extends AppCompatActivity {
             AlertDialog dialog = promptLogin();
             dialog.show();
         }
+
+        // if username is valid, load user data
+        else {
+            reference.child(username).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        userData = snapshot.getValue(UserData.class);
+                    } else {
+                        userData = new UserData("", 0, 0, 0);
+                        reference.child(username).setValue(userData);
+                        }
+                    }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) { }
+            });
+        }
     }
 
     // get the country of the user's location, if permissions allow
@@ -260,6 +278,7 @@ public class MainActivity extends AppCompatActivity {
                 if (snapshot.exists()) {
                     if (logIn) {
                         username = etUsername;
+                        userData = snapshot.getValue(UserData.class);
                         dialog.dismiss();
                         saveUsername();
                         showUsername();
