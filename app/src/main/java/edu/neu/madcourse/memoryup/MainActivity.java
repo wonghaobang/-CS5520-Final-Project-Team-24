@@ -64,16 +64,13 @@ public class MainActivity extends AppCompatActivity {
         reference = FirebaseDatabase.getInstance().getReference().child("users");
         musicService = new Intent(this, BackgroundMusicService.class);
 
-        if (savedInstanceState != null && savedInstanceState.containsKey("username")) {
-            username = savedInstanceState.getString("username");
-            showUsername();
-            playMusic = savedInstanceState.getInt("playMusic") == 1;
+        if (savedInstanceState != null) {
+           playMusic = savedInstanceState.getInt("playMusic") == 1;
             playAudio = savedInstanceState.getInt("playAudio") == 1;
         }
 
         // attempt to load username from local storage
-        if (username == null)
-            getUsername();
+        getUsername();
 
         // get/update user country if permissions are enabled
         getCountry();
@@ -105,11 +102,8 @@ public class MainActivity extends AppCompatActivity {
     // don't prompt username on orientation changes
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
-        if (username != null) {
-            outState.putString("username", username);
-            outState.putInt("playMusic", (playMusic ? 0 : 1));
-            outState.putInt("playMusic", (playAudio ? 0 : 1));
-        }
+        outState.putInt("playMusic", (playMusic ? 0 : 1));
+        outState.putInt("playMusic", (playAudio ? 0 : 1));
         super.onSaveInstanceState(outState);
     }
 
@@ -121,6 +115,9 @@ public class MainActivity extends AppCompatActivity {
             username = reader.readLine();
             file.close();
             reader.close();
+
+            // display it
+            showUsername();
         } catch (Exception e) {
             // no file was found
             AlertDialog dialog = promptLogin();
@@ -249,6 +246,7 @@ public class MainActivity extends AppCompatActivity {
                     if (logIn) {
                         username = etUsername;
                         dialog.dismiss();
+                        saveUsername();
                         showUsername();
                     } else {
                         Snackbar.make(view, R.string.signup_failure, Snackbar.LENGTH_SHORT).show();
@@ -262,6 +260,7 @@ public class MainActivity extends AppCompatActivity {
 
                         username = etUsername;
                         dialog.dismiss();
+                        saveUsername();
                         showUsername();
                     }
                 }
@@ -313,10 +312,9 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    // save username to file and show it on screen
-    private void showUsername() {
-        // save to file
-        try {
+    // save username to file
+    private void saveUsername() {
+       try {
             FileOutputStream fos = this.getBaseContext().openFileOutput("username", Context.MODE_PRIVATE);
             fos.write(username.getBytes());
             fos.close();
@@ -324,7 +322,10 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "Username not saved", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
+    }
 
+    // show username on screen
+    private void showUsername() {
         // display
         TextView userGreeting = findViewById(R.id.userGreeting);
         userGreeting.setText(getString(R.string.user_greeting, username));
