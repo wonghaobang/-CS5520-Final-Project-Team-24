@@ -3,6 +3,7 @@ package edu.neu.madcourse.memoryup;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.app.NotificationCompat;
@@ -12,8 +13,10 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -33,6 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -75,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         musicService = new Intent(this, BackgroundMusicService.class);
 
         if (savedInstanceState != null) {
-           playMusic = savedInstanceState.getInt("playMusic") == 1;
+            playMusic = savedInstanceState.getInt("playMusic") == 1;
             playAudio = savedInstanceState.getInt("playAudio") == 1;
         }
 
@@ -132,11 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
             // display it
             showUsername();
-        } catch (Exception e) {
-            // no file was found
-            Dialog dialog = promptLogin();
-            dialog.show();
-        }
+        } catch (Exception ignored) { } // If no file is found, username will be null
 
         // just in case file was invalid
         if (username == null) {
@@ -307,8 +307,7 @@ public class MainActivity extends AppCompatActivity {
     private void createNotificationChannel() {
         CharSequence name = getString(R.string.channel_name);
         String description = getString(R.string.channel_description);
-        int importance = NotificationManager.IMPORTANCE_DEFAULT;
-        NotificationChannel channel = new NotificationChannel(getString(R.string.channel_id), name, importance);
+        NotificationChannel channel = new NotificationChannel(getString(R.string.channel_id), name, NotificationManager.IMPORTANCE_HIGH);
         channel.setDescription(description);
 
         // Register the channel with the system
@@ -319,35 +318,43 @@ public class MainActivity extends AppCompatActivity {
     // launch listener for notifications to send
     private void launchNotificationListener() {
         // add a listener for changes to given user
-        ValueEventListener postListener = new ValueEventListener() {
+        ChildEventListener scoreListener = new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot changedUser : snapshot.getChildren()) {
-                    UserData changedData = changedUser.getValue(UserData.class);
-                    String changedUsername = changedUser.getKey();
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) { }
 
-                    if (changedUsername == null || changedData == null)
-                        continue;
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+               UserData changedData = snapshot.getValue(UserData.class);
+               String changedUsername = snapshot.getKey();
 
-                    // for current user, just update stored data
-                    if (changedUsername.equals(username)) {
-                        userData = changedData;
-                        continue;
-                    }
+                if (changedUsername == null || changedData == null)
+                    return;
 
-                    // send notification when other user exceed your score
-                    int userScore = userData.maxAnimal + userData.maxFruit + userData.maxPlanet;
-                    int changedScore = changedData.maxAnimal + changedData.maxFruit + changedData.maxPlanet;
-                    if (changedScore > userScore) {
-                        sendNotification(changedUsername, changedData.country);
-                    }
+                // for current user, just update stored data
+                if (changedUsername.equals(username)) {
+                    userData = changedData;
+                    return;
+                }
+
+                // send notification when other user exceed your score
+                int userScore = userData.maxAnimal + userData.maxFruit + userData.maxPlanet;
+                int changedScore = changedData.maxAnimal + changedData.maxFruit + changedData.maxPlanet;
+                if (changedScore > userScore) {
+                    sendNotification(changedUsername, changedData.country);
                 }
             }
 
             @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) { }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) { }
+
+            @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         };
-        reference.addValueEventListener(postListener);
+
+        reference.addChildEventListener(scoreListener);
     }
 
     // send a notification
@@ -362,19 +369,25 @@ public class MainActivity extends AppCompatActivity {
             reader.close();
 
             // if last notification was under a day ago, do nothing
-            if (currentTime - lastTime < 86400)
+            if (currentTime - lastTime < 3600)
                 return;
         } catch (Exception ignored) { } // no file was found, so sending is okay
 
         String message;
-        if (!otherCountry.equals(""))
-            message = otherUser + " just passed you on the leaderboard. Reclaim your spot!";
+        if (otherCountry.equals(""))
+            message = otherUser + " has passed you on the leaderboard. Reclaim your spot!";
         else
-            message = otherUser + "from " + otherCountry + " just passed you on the leaderboard. Reclaim your spot!";
+            message = otherUser + ", from " + otherCountry + ", has passed you on the leaderboard. Reclaim your spot!";
 
-       NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getString(R.string.channel_id))
+        PendingIntent intent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), PendingIntent.FLAG_IMMUTABLE);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getString(R.string.channel_id))
+                .setDefaults(Notification.DEFAULT_ALL)
                 .setSmallIcon(R.drawable.brain)
+                .setContentTitle("Someone has passed you in MemoryUp!")
                 .setContentText(message)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
+                .setContentIntent(intent)
+                .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         notificationManager.notify(0, builder.build());
