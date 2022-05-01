@@ -313,7 +313,19 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    // save username to file and show it on screen
     private void showUsername() {
+        // save to file
+        try {
+            FileOutputStream fos = this.getBaseContext().openFileOutput("username", Context.MODE_PRIVATE);
+            fos.write(username.getBytes());
+            fos.close();
+        } catch (Exception e) {
+            Toast.makeText(MainActivity.this, "Username not saved", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+
+        // display
         TextView userGreeting = findViewById(R.id.userGreeting);
         userGreeting.setText(getString(R.string.user_greeting, username));
     }
