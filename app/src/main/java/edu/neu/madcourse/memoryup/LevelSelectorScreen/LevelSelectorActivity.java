@@ -45,6 +45,7 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
     private int levelThree = R.drawable.levelthree;
     private int levelFour = R.drawable.levelfour;
     private int lock = R.drawable.lock;
+    private int greyStar = R.drawable.greystar;
 
     private int maxFruitLevel;
     private int maxAnimalLevel;
@@ -70,7 +71,7 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference().child("users").child(username);
 
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -83,46 +84,46 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
 
                     ViewPagerItem viewPagerItem;
                     if (maxFruitLevel == 0){
-                        viewPagerItem = new ViewPagerItem("Fruits", levelOne, lock, lock, lock);
+                        viewPagerItem = new ViewPagerItem("Fruits", greyStar, lock, lock, lock);
                     }
                     else if (maxFruitLevel == 1){
-                        viewPagerItem = new ViewPagerItem("Fruits", levelOne, levelTwo, lock, lock);
+                        viewPagerItem = new ViewPagerItem("Fruits", levelOne, greyStar, lock, lock);
                     }
                     else if (maxFruitLevel == 2){
-                        viewPagerItem = new ViewPagerItem("Fruits", levelOne, levelTwo, levelThree, lock);
+                        viewPagerItem = new ViewPagerItem("Fruits", levelOne, levelTwo, greyStar, lock);
                     }
                     else {
-                        viewPagerItem = new ViewPagerItem("Fruits", levelOne, levelTwo, levelThree, levelFour);
+                        viewPagerItem = new ViewPagerItem("Fruits", levelOne, levelTwo, levelThree, greyStar);
                     }
                     viewPagerItemLst.add(viewPagerItem);
 
                     ViewPagerItem viewPagerItem2;
                     if (maxAnimalLevel == 0){
-                        viewPagerItem2 = new ViewPagerItem("Animals", levelOne, lock, lock, lock);
+                        viewPagerItem2 = new ViewPagerItem("Animals", greyStar, lock, lock, lock);
                     }
                     else if (maxAnimalLevel == 1){
-                        viewPagerItem2 = new ViewPagerItem("Animals", levelOne, levelTwo, lock, lock);
+                        viewPagerItem2 = new ViewPagerItem("Animals", levelOne, greyStar, lock, lock);
                     }
                     else if (maxAnimalLevel == 2){
-                        viewPagerItem2 = new ViewPagerItem("Animals", levelOne, levelTwo, levelThree, lock);
+                        viewPagerItem2 = new ViewPagerItem("Animals", levelOne, levelTwo, greyStar, lock);
                     }
                     else {
-                        viewPagerItem2 = new ViewPagerItem("Animals", levelOne, levelTwo, levelThree, levelFour);
+                        viewPagerItem2 = new ViewPagerItem("Animals", levelOne, levelTwo, levelThree, greyStar);
                     }
                     viewPagerItemLst.add(viewPagerItem2);
 
                     ViewPagerItem viewPagerItem3;
                     if (maxPlanetLevel == 0){
-                        viewPagerItem3 = new ViewPagerItem("Planets", levelOne, lock, lock, lock);
+                        viewPagerItem3 = new ViewPagerItem("Planets", greyStar, lock, lock, lock);
                     }
                     else if (maxPlanetLevel == 1){
-                        viewPagerItem3 = new ViewPagerItem("Planets", levelOne, levelTwo, lock, lock);
+                        viewPagerItem3 = new ViewPagerItem("Planets", levelOne, greyStar, lock, lock);
                     }
                     else if (maxPlanetLevel == 2){
-                        viewPagerItem3 = new ViewPagerItem("Planets", levelOne, levelTwo, levelThree, lock);
+                        viewPagerItem3 = new ViewPagerItem("Planets", levelOne, levelTwo, greyStar, lock);
                     }
                     else {
-                        viewPagerItem3 = new ViewPagerItem("Planets", levelOne, levelTwo, levelThree, levelFour);
+                        viewPagerItem3 = new ViewPagerItem("Planets", levelOne, levelTwo, levelThree, greyStar);
                     }
 
                     viewPagerItemLst.add(viewPagerItem3);
