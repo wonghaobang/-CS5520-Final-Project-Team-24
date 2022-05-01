@@ -373,7 +373,7 @@ public class MainActivity extends AppCompatActivity {
             message = otherUser + "from " + otherCountry + " just passed you on the leaderboard. Reclaim your spot!";
 
        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getString(R.string.channel_id))
-                .setSmallIcon(R.drawable.icon_background)
+                .setSmallIcon(R.drawable.brain)
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
