@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/card_matching_background"
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.SwitchCompat
@@ -25,48 +26,85 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/playButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onPlay"
-        android:text="@string/play"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/leaderboardButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onLeaderboard"
-        android:text="@string/leaderboard"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/playButton" />
-
     <ImageView
         android:id="@+id/logoImage"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        app:layout_constraintBottom_toTopOf="@+id/playButton"
+        android:contentDescription="@string/app_logo"
+        app:layout_constraintBottom_toTopOf="@+id/userGreeting"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/btn_star_big_on"
-        android:contentDescription="@string/app_logo" />
+        app:srcCompat="@android:drawable/btn_star_big_on" />
 
-    <Button
-        android:id="@+id/userButton"
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:onClick="onChangeUser"
-        android:text="@string/change_user"
+        android:background="@drawable/textview_background"
+        android:paddingStart="70dp"
+        android:paddingTop="15dp"
+        android:paddingEnd="70dp"
+        android:paddingBottom="30dp"
+        app:constraint_referenced_ids="userGreeting, playButton,leaderboardButton"
+        app:flow_maxElementsWrap="1"
+        app:flow_verticalGap="22dp"
+        app:flow_wrapMode="aligned"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoImage" />
+
+    <TextView
+        android:id="@+id/userGreeting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/user_greeting_background"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:text="Hi, liana!"
+        android:textColor="#FFFFFF"
+        android:textSize="26sp"
+        tools:layout_editor_absoluteX="190dp"
+        tools:layout_editor_absoluteY="314dp" />
+
+    <ImageView
+        android:id="@+id/changeUserIcon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/icon_background"
+        android:contentDescription="@string/change_user_icon_description"
+        android:onClick="onChangeUser"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/userGreeting"
+        app:layout_constraintEnd_toEndOf="@+id/buttons"
+        app:layout_constraintStart_toEndOf="@+id/userGreeting"
+        app:layout_constraintTop_toTopOf="@+id/userGreeting"
+        app:srcCompat="@drawable/change_user" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/playButton"
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/icon_background"
+        android:onClick="onPlay"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:text="@string/play"
+        android:textAllCaps="false"
+        android:textColor="#000000"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/leaderboardButton"
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/icon_background"
+        android:onClick="onLeaderboard"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:text="@string/leaderboard"
+        android:textAllCaps="false"
+        android:textColor="#000000" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
