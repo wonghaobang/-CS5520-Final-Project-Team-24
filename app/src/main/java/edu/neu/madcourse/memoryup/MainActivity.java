@@ -143,6 +143,24 @@ public class MainActivity extends AppCompatActivity {
             Dialog dialog = promptLogin();
             dialog.show();
         }
+
+        // if username is valid, load user data
+        else {
+            reference.child(username).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        userData = snapshot.getValue(UserData.class);
+                    } else {
+                        userData = new UserData("", 0, 0, 0);
+                        reference.child(username).setValue(userData);
+                        }
+                    }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) { }
+            });
+        }
     }
 
     // get the country of the user's location, if permissions allow
@@ -256,6 +274,7 @@ public class MainActivity extends AppCompatActivity {
                 if (snapshot.exists()) {
                     if (logIn) {
                         username = etUsername;
+                        userData = snapshot.getValue(UserData.class);
                         dialog.dismiss();
                         saveUsername();
                         showUsername();
@@ -354,7 +373,7 @@ public class MainActivity extends AppCompatActivity {
             message = otherUser + "from " + otherCountry + " just passed you on the leaderboard. Reclaim your spot!";
 
        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getString(R.string.channel_id))
-                .setSmallIcon(R.drawable.icon_background)
+                .setSmallIcon(R.drawable.brain)
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
