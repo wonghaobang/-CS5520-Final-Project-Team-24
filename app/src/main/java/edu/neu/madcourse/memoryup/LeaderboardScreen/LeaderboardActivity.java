@@ -68,24 +68,17 @@ public class LeaderboardActivity extends AppCompatActivity {
                             userMilestone += "🌍";
                         }
 
-                        // handle no-flag case
-                        if (data.country.equals(""))
-                            leaderList.add(new LeaderItem(item_snapshot.getKey(), data.maxFruit + data.maxAnimal + data.maxPlanet, 0, userMilestone));
-                        else
-                            leaderList.add(new LeaderItem(String.format("%s %s", Flag.getFlag(data.country), item_snapshot.getKey()), data.maxFruit + data.maxAnimal + data.maxPlanet, 0, userMilestone));
-//                        leaderList.add(new LeaderItem( item_snapshot.getKey(), data.maxFruit + data.maxAnimal + data.maxPlanet, 0, userMilestone));
+                        leaderList.add(new LeaderItem(String.format("%s %s", Flag.getFlag(data.country), item_snapshot.getKey()), data.maxFruit + data.maxAnimal + data.maxPlanet, 0, userMilestone));
 
                         Collections.sort(leaderList);
 
                         for (int i = 0; i < leaderList.size(); i++) {
                             leaderList.get(i).setRank(i + 1);
-                            Log.v("Hao-tag", String.format("%s %d %d", leaderList.get(i).getName(), leaderList.get(i).getScore(), leaderList.get(i).getRank()));
+                            Log.d("Hao-tag", String.format("%s %d %d", leaderList.get(i).getName(), leaderList.get(i).getScore(), leaderList.get(i).getRank()));
                         }
                         leaderboardViewAdapter.notifyDataSetChanged();
                     }
                 }
-
-
             }
 
             @Override
@@ -93,10 +86,6 @@ public class LeaderboardActivity extends AppCompatActivity {
                 Toast.makeText(LeaderboardActivity.this, "Fail to read data " + error, Toast.LENGTH_SHORT).show();
             }
         });
-
-
-//        leaderboardRecyclerView.smoothScrollToPosition(leaderList.size() - 1);
-
 
     }
 }

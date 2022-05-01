@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
+
+import edu.neu.madcourse.memoryup.Flag;
 import edu.neu.madcourse.memoryup.R;
 
 public class LeaderboardViewAdapter extends RecyclerView.Adapter<LeaderboardViewHolder> {
@@ -36,10 +38,12 @@ public class LeaderboardViewAdapter extends RecyclerView.Adapter<LeaderboardView
         holder.score.setText(String.valueOf(currentItem.getScore()));
         holder.milestone.setText(currentItem.getMilestone());
 
-//        holder.milestone.setText("🐤🍉🌍");
-        holder.milestone.setTextColor(Color.WHITE);
+        holder.rank.setTextColor(Color.BLACK);
+        holder.name.setTextColor(Color.BLACK);
+        holder.score.setTextColor(Color.BLACK);
+        holder.milestone.setTextColor(Color.BLACK);
 
-        if (currentItem.getName().equals(username)) {
+        if (currentItem.getName().split(" ")[1].equals(username)) {
             holder.itemView.setBackgroundColor(Color.rgb(173,216,230));
         } else {
             holder.itemView.setBackgroundColor(Color.WHITE);

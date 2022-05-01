@@ -25,12 +25,13 @@ public class Flag {
         put("Argentina", "\uD83C\uDDE6\uD83C\uDDF7");
         put("Zimbabwe", "\uD83C\uDDFF\uD83C\uDDFC");
         put("United Nations", "\uD83C\uDDFA\uD83C\uDDF3");
+        put("None", "\uD83C\uDFF4");
     }};
 
 
     public static String getFlag(String country) {
         if (flagMap.get(country) == null) {
-            return flagMap.get("United Nations");
+            return flagMap.get("None");
         } else {
             return flagMap.get(country);
         }
