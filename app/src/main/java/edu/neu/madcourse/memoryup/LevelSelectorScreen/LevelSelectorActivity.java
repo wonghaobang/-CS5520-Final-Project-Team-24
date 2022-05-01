@@ -82,6 +82,9 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
                     maxAnimalLevel = data.maxAnimal;
                     maxPlanetLevel = data.maxPlanet;
 
+                    // clear current page list and reset
+                    viewPagerItemLst.clear();
+
                     ViewPagerItem viewPagerItem;
                     if (maxFruitLevel == 0){
                         viewPagerItem = new ViewPagerItem("Fruits", greyStar, lock, lock, lock);
