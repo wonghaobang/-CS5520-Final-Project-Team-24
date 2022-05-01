@@ -7,7 +7,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/results"
-        android:layout_width="200dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,7 +18,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/dialog_results_background"
-            android:padding="16dp">
+            android:paddingStart="40dp"
+            android:paddingTop="32dp"
+            android:paddingEnd="40dp"
+            android:paddingBottom="40dp">
 
             <TextView
                 android:id="@+id/title"
@@ -35,7 +38,7 @@
                 android:id="@+id/pointsIcon"
                 android:layout_width="75dp"
                 android:layout_height="75dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="20dp"
                 android:contentDescription="@string/points_icon_description"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +60,7 @@
                 android:id="@+id/mainMenuIcon"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/icon_background"
                 android:contentDescription="@string/main_menu_icon_description"
                 android:padding="8dp"
@@ -71,7 +74,7 @@
                 android:id="@+id/levelsIcon"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/icon_background"
                 android:contentDescription="@string/levels_icon_description"
                 android:padding="8dp"
