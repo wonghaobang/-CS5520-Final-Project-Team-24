@@ -20,8 +20,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -47,7 +45,6 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -228,8 +225,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // if country has changed, send to database
-        if (!country.equals("")) {
-            reference.child(username).setValue(userData);
+        if (country != null && !country.equals("")) {
+            reference.child(username).child("country").setValue(country);
         }
     }
 
@@ -369,7 +366,7 @@ public class MainActivity extends AppCompatActivity {
             reader.close();
 
             // if last notification was under a day ago, do nothing
-            if (currentTime - lastTime < 3600)
+            if (currentTime - lastTime < 10)
                 return;
         } catch (Exception ignored) { } // no file was found, so sending is okay
 
