@@ -95,8 +95,11 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
                     else if (maxFruitLevel == 2){
                         viewPagerItem = new ViewPagerItem("Fruits", levelOne, levelTwo, greyStar, lock);
                     }
-                    else {
+                    else if (maxFruitLevel == 3) {
                         viewPagerItem = new ViewPagerItem("Fruits", levelOne, levelTwo, levelThree, greyStar);
+                    }
+                    else {
+                        viewPagerItem = new ViewPagerItem("Fruits", levelOne, levelTwo, levelThree, levelFour);
                     }
                     viewPagerItemLst.add(viewPagerItem);
 
@@ -110,8 +113,11 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
                     else if (maxAnimalLevel == 2){
                         viewPagerItem2 = new ViewPagerItem("Animals", levelOne, levelTwo, greyStar, lock);
                     }
-                    else {
+                    else if (maxAnimalLevel == 3){
                         viewPagerItem2 = new ViewPagerItem("Animals", levelOne, levelTwo, levelThree, greyStar);
+                    }
+                    else {
+                        viewPagerItem2 = new ViewPagerItem("Animals", levelOne, levelTwo, levelThree, levelFour);
                     }
                     viewPagerItemLst.add(viewPagerItem2);
 
@@ -125,8 +131,11 @@ public class LevelSelectorActivity extends AppCompatActivity implements LevelCli
                     else if (maxPlanetLevel == 2){
                         viewPagerItem3 = new ViewPagerItem("Planets", levelOne, levelTwo, greyStar, lock);
                     }
-                    else {
+                    else if (maxPlanetLevel == 3){
                         viewPagerItem3 = new ViewPagerItem("Planets", levelOne, levelTwo, levelThree, greyStar);
+                    }
+                    else {
+                        viewPagerItem3 = new ViewPagerItem("Planets", levelOne, levelTwo, levelThree, levelFour);
                     }
 
                     viewPagerItemLst.add(viewPagerItem3);
