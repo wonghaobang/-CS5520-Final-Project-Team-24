@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // if country has changed, send to database
-        if (country != null && !country.equals("")) {
+        if (username != null && !country.equals("")) {
             reference.child(username).child("country").setValue(country);
         }
     }
@@ -366,7 +366,7 @@ public class MainActivity extends AppCompatActivity {
             reader.close();
 
             // if last notification was under a day ago, do nothing
-            if (currentTime - lastTime < 10)
+            if (currentTime - lastTime < 3600)
                 return;
         } catch (Exception ignored) { } // no file was found, so sending is okay
 
